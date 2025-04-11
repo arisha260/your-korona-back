@@ -1,8 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
+    Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
+    Route::get('/latest', [\App\Http\Controllers\News\KoronaNewsController::class, 'latest']);
+    Route::get('/show/{id}', [\App\Http\Controllers\News\KoronaNewsController::class, 'show']);
+});
+
+
+Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'reviews'], function() {
+    Route::get('/', \App\Http\Controllers\Reviews\IndexController::class);
+    Route::get('/latest', \App\Http\Controllers\Reviews\LatestController::class);
+    Route::get('/show/{id}', \App\Http\Controllers\Reviews\ShowController::class);
+});
+
+
+Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'products'], function() {
+    Route::get('/', \App\Http\Controllers\Products\IndexController::class);
+    Route::get('/latest', \App\Http\Controllers\Products\PopularController::class);
+    Route::get('/show/{id}', \App\Http\Controllers\Products\ShowController::class);
+});
+
+
+Route::get('/categories', \App\Http\Controllers\Categories\IndexController::class);
