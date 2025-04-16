@@ -12,6 +12,7 @@ class KoronaNewResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'img' => $this->img,
             'created_at' => $this->created_at,

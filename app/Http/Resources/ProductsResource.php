@@ -12,6 +12,7 @@ class ProductsResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'photos' => json_decode($this->photos),
             'category' => new CategoryResource($this->category),
@@ -21,6 +22,7 @@ class ProductsResource extends JsonResource
             'external_links' => json_decode($this->external_links),
             'quantity' => $this->quantity,
             'views' => $this->views,
+            'isNew' => $this->is_new,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

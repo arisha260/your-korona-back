@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -27,6 +28,7 @@ class ProductFactory extends Factory
 
         return [
             'title' => $this->faker->words(3, true),
+            'slug' => Str::slug($this->faker->words(3, true)),
             'description' => $this->faker->paragraph(3),
             'photos' => json_encode($photos),
             'category_id' => rand(1, 7),
@@ -43,6 +45,7 @@ class ProductFactory extends Factory
             ]),
             'quantity' => rand(1, 20),
             'views' => rand(0, 300),
+//            'isNew' => false,
         ];
     }
 }

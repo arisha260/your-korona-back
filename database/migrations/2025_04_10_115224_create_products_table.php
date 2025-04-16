@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('description');
             $table->json('photos');
             $table->foreignId('category_id')->constrained(
@@ -25,6 +26,8 @@ return new class extends Migration
             $table->json('external_links')->nullable();
             $table->unsignedInteger('quantity')->default(0);
             $table->unsignedInteger('views')->default(0);
+
+//            $table->boolean('isNew')->default(false);
             $table->timestamps();
         });
     }

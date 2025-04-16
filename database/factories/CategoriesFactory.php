@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class koronaNewFactory extends Factory
+class CategoriesFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,10 +17,8 @@ class koronaNewFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(5),
-            'slug' => Str::slug($this->faker->words(3, true)), // генерируем slug
-            'description' => $this->faker->paragraph(4),
-            'img' => 'images/news.png',
+            'name' => $this->faker->name(),
+            'slu' => $this->faker->name(),
         ];
     }
 }
