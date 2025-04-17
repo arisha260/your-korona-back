@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
     Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
     Route::get('/latest', [\App\Http\Controllers\News\KoronaNewsController::class, 'latest']);
-    Route::get('/show/{id}', [\App\Http\Controllers\News\KoronaNewsController::class, 'show']);
+    Route::get('/show/{slug}', [\App\Http\Controllers\News\KoronaNewsController::class, 'show']);
 });
 
 
@@ -20,6 +20,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/', \App\Http\Controllers\Products\IndexController::class);
     Route::get('/latest', \App\Http\Controllers\Products\PopularController::class);
     Route::get('/show/{id}', \App\Http\Controllers\Products\ShowController::class);
+    Route::get('/news', \App\Http\Controllers\Products\LastNewController::class);
 });
 
 

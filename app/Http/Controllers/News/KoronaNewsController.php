@@ -4,23 +4,30 @@ namespace App\Http\Controllers\News;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\KoronaNewResource;
+use App\Http\Resources\KoronaNewResourceCollection;
 use App\Models\KoronaNew;
 
 class KoronaNewsController extends Controller
 {
-    public function index() // /api/news
+    public function index()
     {
-        return KoronaNewResource::collection(KoronaNew::latest()->get());
+
+        $news = KoronaNew::latest()->get();
+
+        return new KoronaNewResourceCollection($news);
+
     }
+
 
     public function latest() // /api/news/latest
     {
         return KoronaNewResource::collection(KoronaNew::latest()->take(4)->get());
     }
 
-    public function show($id) // /api/news/{id}
+    public function show($slug)
     {
-        $news = KoronaNew::findOrFail($id);
+        $news = KoronaNew::where('slug', $slug)->firstOrFail();
         return new KoronaNewResource($news);
     }
+
 }
