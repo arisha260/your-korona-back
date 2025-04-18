@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class LatestController extends Controller
 {
     public function __invoke(){
-        return KoronaReviewResource::collection(KoronaReview::latest()->take(4)->get());
+        return KoronaReviewResource::collection(KoronaReview::with('product')->latest()->take(4)->get()
+        );
     }
 }

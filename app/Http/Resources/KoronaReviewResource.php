@@ -12,6 +12,7 @@ class KoronaReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
+            'product' => new ProductsResource($this->whenLoaded('product')),
             'description' => $this->description,
             'author' => $this->author,
             'mark' => $this->mark,

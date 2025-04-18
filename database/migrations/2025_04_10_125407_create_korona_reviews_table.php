@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('korona_reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
-            $table->text('description');
             $table->string('author');
             $table->unsignedTinyInteger('mark');
             $table->unsignedBigInteger('likes')->default(5);
