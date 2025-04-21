@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 
 class ShowController extends Controller
 {
-    public function __invoke($id){
-        $review = KoronaReview::findOrFail($id);
+    public function __invoke($slug)
+    {
+        $review = KoronaReview::where('slug', $slug)->firstOrFail();
         return new KoronaReviewResource($review);
     }
 }

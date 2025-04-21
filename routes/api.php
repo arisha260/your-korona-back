@@ -12,7 +12,7 @@ Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], f
 Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'reviews'], function() {
     Route::get('/', \App\Http\Controllers\Reviews\IndexController::class);
     Route::get('/latest', \App\Http\Controllers\Reviews\LatestController::class);
-    Route::get('/show/{id}', \App\Http\Controllers\Reviews\ShowController::class);
+    Route::get('/show/{slug}', \App\Http\Controllers\Reviews\ShowController::class);
 });
 
 

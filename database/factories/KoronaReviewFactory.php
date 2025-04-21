@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -19,16 +20,16 @@ class KoronaReviewFactory extends Factory
     {
         $product = Product::inRandomOrder()->first() ?? Product::factory()->create();
 
-        $photos = json_decode($product->photos, true);
+        $photos = $product->photos;
         $firstImage = $photos[0] ?? 'images/reviews/default.jpg';
 
         return [
             'product_id' => $product->id,
             'description' => $this->faker->paragraph(3),
+            'slug' => Str::slug($this->faker->words(3, true)),
             'author' => $this->faker->name(),
             'mark' => 5,
             'likes' => rand(0, 200),
-            'img' => $firstImage,
         ];
     }
 }

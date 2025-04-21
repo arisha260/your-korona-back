@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class KoronaReview extends Model
 {
     use HasFactory;
-    protected $fillable = ['description', 'author', 'mark', 'img'];
+    protected $fillable = ['description', 'slug', 'author', 'mark', 'img'];
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->select('id', 'title', 'slug', 'photos');
     }
 
 }

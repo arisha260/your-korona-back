@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 
 class ProductService
@@ -31,4 +32,15 @@ class ProductService
             ->get();
 
     }
+
+    public function getProductByCategory($slug, $limit = 20, $page = 1)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        return Product::where('category_id', $category->id)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->paginate($limit, ['*'], 'page', $page);
+    }
+
 }

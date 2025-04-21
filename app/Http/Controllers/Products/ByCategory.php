@@ -6,26 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Http\Resources\ProductsResource;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 
 class ByCategory extends Controller
 {
-    public function __invoke(Request $request, $slug)
+    public function __invoke(Request $request, $slug, ProductService $productService)
     {
-        $perPage = $request->get('per_page', 20);
-
         $limit = 20;
+        $page = $request->input('page', 1);
 
-        // Найти категорию по slug
-        $category = Category::where('slug', $slug)->firstOrFail();
-
-        // Найти продукты по category_id
-        $products = Product::where('category_id', $category->id)->paginate($perPage);
+        $products = $productService->getProductByCategory($slug, $limit, $page);
 
         return ProductsResource::collection($products)->additional([
-            'nextPage' => $products->count() < $limit ? null : $perPage + 1,
-            'total' => $products->count(),
+            'nextPage' => $products->hasMorePages() ? $products->currentPage() + 1 : null,
+            'total' => $products->total(),
         ]);
     }
+
 
 }

@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->string('author');
+            $table->string('slug');
+            $table->text('description');
             $table->unsignedTinyInteger('mark');
             $table->unsignedBigInteger('likes')->default(5);
-            $table->string('img')->nullable();
             $table->timestamps();
         });
     }

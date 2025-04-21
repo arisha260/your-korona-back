@@ -12,12 +12,16 @@ class KoronaReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'product' => new ProductsResource($this->whenLoaded('product')),
             'description' => $this->description,
+            'slug' => $this->slug,
             'author' => $this->author,
             'mark' => $this->mark,
             'likes' => $this->likes,
-            'img' => $this->img,
+            'product' => [
+                'title' => $this->product->title,
+                'slug' => $this->product->slug,
+                'img' => $this->product->photos[0] ?? null,
+            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

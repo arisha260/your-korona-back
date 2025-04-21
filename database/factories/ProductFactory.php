@@ -30,7 +30,7 @@ class ProductFactory extends Factory
             'title' => $this->faker->words(3, true),
             'slug' => Str::slug($this->faker->words(3, true)),
             'description' => $this->faker->paragraph(3),
-            'photos' => json_encode($photos),
+            'photos' => $photos,
             'category_id' => rand(1, 7),
             'actual_price' => rand(1000, 9000),
             'old_price' => rand(1000, 11000),
