@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 
 class ShowController extends Controller
 {
-    public function __invoke($id){
-        $product = Product::findOrFail($id);
+    public function __invoke($slug){
+
+        $product = Product::where('slug', $slug)->firstOrFail();
         return new ProductsResource($product);
+
     }
 }

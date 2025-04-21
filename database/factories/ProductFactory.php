@@ -34,15 +34,29 @@ class ProductFactory extends Factory
             'category_id' => rand(1, 7),
             'actual_price' => rand(1000, 9000),
             'old_price' => rand(1000, 11000),
-            'equipment' => json_encode([
+            'materials' => [
                 $this->faker->word(),
                 $this->faker->word(),
-                $this->faker->word()
-            ]),
-            'external_links' => json_encode([
-                'instagram' => 'https://instagram.com/' . $this->faker->userName,
-                'youtube' => 'https://youtube.com/' . $this->faker->slug
-            ]),
+                $this->faker->word(),
+                $this->faker->word(),
+                $this->faker->word(),
+            ],
+            'equipment' => [
+                'included' => [
+                    $this->faker->word(),
+                    $this->faker->word(),
+                ],
+                'excluded' => [
+                    $this->faker->word(),
+                    $this->faker->word(),
+
+                ],
+            ],
+            'external_links' => [
+                'whatsapp' => 'https://whatsapp.com/',
+                'vk' => 'https://vk.com/',
+                'telegram' => 'https://telegram.org/',
+            ],
             'quantity' => rand(1, 20),
             'views' => rand(0, 300),
 //            'isNew' => false,

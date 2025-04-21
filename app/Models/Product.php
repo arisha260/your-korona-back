@@ -22,6 +22,7 @@ class Product extends Model
         'actual_price',
         'old_price',
         'equipment',
+        'materials',
         'external_links',
         'quantity',
         'views'
@@ -30,6 +31,7 @@ class Product extends Model
     protected $casts = [
         'photos' => 'array',
         'equipment' => 'array',
+        'materials' => 'array',
         'external_links' => 'array',
         'isNew' => 'boolean',
         'availability' => 'boolean',

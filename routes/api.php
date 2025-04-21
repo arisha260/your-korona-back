@@ -20,7 +20,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/', \App\Http\Controllers\Products\IndexController::class);
     Route::get('/search', \App\Http\Controllers\Products\SearchAllController::class);
     Route::get('/latest', \App\Http\Controllers\Products\PopularController::class);
-    Route::get('/show/{id}', \App\Http\Controllers\Products\ShowController::class);
+    Route::get('/show/{slug}', \App\Http\Controllers\Products\ShowController::class);
     Route::get('/news', \App\Http\Controllers\Products\LastNewController::class);
     Route::get('/{slug}', \App\Http\Controllers\Products\ByCategory::class);
 });

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('actual_price');
             $table->unsignedInteger('old_price')->nullable();
             $table->json('equipment')->nullable();
+            $table->json('materials')->nullable();
             $table->json('external_links')->nullable();
             $table->unsignedInteger('quantity')->default(0);
             $table->unsignedInteger('views')->default(0);
