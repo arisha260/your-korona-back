@@ -33,14 +33,31 @@ class ProductService
 
     }
 
-    public function getProductByCategory($slug, $limit = 20, $page = 1)
+    public function getProductByCategory($slug, $limit = 20, $page = 1, $sort = 'newest', $search = null)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        return Product::where('category_id', $category->id)
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
-            ->paginate($limit, ['*'], 'page', $page);
+        $query = Product::where('category_id', $category->id);
+
+        if ($search) {
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+
+        switch ($sort) {
+            case 'price':
+                $query->orderBy('actual_price');
+                break;
+            case 'popularity':
+                $query->orderByDesc('views');
+                break;
+            case 'newest':
+            default:
+                $query->orderByDesc('created_at')->orderByDesc('id');
+                break;
+        }
+
+        return $query->paginate($limit, ['*'], 'page', $page);
     }
+
 
 }

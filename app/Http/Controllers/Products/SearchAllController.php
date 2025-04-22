@@ -9,26 +9,34 @@ use Illuminate\Http\Request;
 
 class SearchAllController extends Controller
 {
-    public function __invoke(Request $request){
+    public function __invoke(Request $request)
+    {
+        $query = $request->input('q', '');
+        $page = (int) $request->input('page', 1);
+        $loadAll = $request->boolean('loadAll', false);
 
-        $query = $request->input('q');
+        // По умолчанию 10, если запрашиваем все — большое число
+        $perPage = $loadAll ? 1000 : 10;
 
-        $products = Product::query()
+        $productsQuery = Product::query()
             ->when($query, function ($q) use ($query) {
-                $q->where(function ($q2) use ($query) {
-                    $q2->where('title', 'like', "%{$query}%");
-                });
+                $q->where('title', 'like', "%{$query}%");
             })
-            ->latest()
+            ->latest();
+
+        $total = $productsQuery->count();
+
+        $products = $productsQuery
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
             ->get();
 
-        $limited = $products->take(10);
-
-        $rest = $products->slice(10)->values();
-
-        return ProductsResource::collection($limited)->additional([
-            'rest' => ProductsResource::collection($rest),
+        return response()->json([
+            'data' => ProductsResource::collection($products),
+            'total' => $total,
+            'hasMore' => !$loadAll && ($page * $perPage) < $total,
         ]);
-
     }
+
+
 }
