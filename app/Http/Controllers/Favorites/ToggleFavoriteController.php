@@ -11,6 +11,7 @@ use App\Models\KoronaNew;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class ToggleFavoriteController extends Controller
 {
@@ -31,7 +32,18 @@ class ToggleFavoriteController extends Controller
             $existing->delete();
             return response()
                 ->json(['removed' => true])
-                ->cookie('user_token', $token, 60 * 24 * 30);
+                ->withCookie(
+                    new Cookie(
+                        'user_token',
+                        $token,
+                        time() + 60 * 60 * 24 * 30, // вот здесь время жизни в UNIX timestamp!
+                        '/',  // path
+                        null, // domain
+                        false, // secure
+                        false, // httpOnly
+                        false, // raw
+                        'lax'  // sameSite
+                    ));
         }
 
         Favorite::create([
@@ -41,6 +53,17 @@ class ToggleFavoriteController extends Controller
 
         return response()
             ->json(['added' => true])
-            ->cookie('user_token', $token, 60 * 24 * 30);
+            ->withCookie(
+                new Cookie(
+                    'user_token',
+                    $token,
+                    time() + 60 * 60 * 24 * 30, // вот здесь время жизни в UNIX timestamp!
+                    '/',  // path
+                    null, // domain
+                    false, // secure
+                    false, // httpOnly
+                    false, // raw
+                    'lax'  // sameSite
+                ));
     }
 }

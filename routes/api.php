@@ -26,7 +26,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favorites'], function() {
-    Route::get('/{token}', \App\Http\Controllers\Favorites\GetFavoriteController::class);
+    Route::get('/me', \App\Http\Controllers\Favorites\GetFavoriteController::class);
     Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
 });
 
