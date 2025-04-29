@@ -40,7 +40,7 @@ class ToggleFavoriteController extends Controller
                         '/',  // path
                         null, // domain
                         false, // secure
-                        false, // httpOnly
+                        true, // httpOnly
                         false, // raw
                         'lax'  // sameSite
                     ));
@@ -61,7 +61,7 @@ class ToggleFavoriteController extends Controller
                     '/',  // path
                     null, // domain
                     false, // secure
-                    false, // httpOnly
+                    true, // httpOnly
                     false, // raw
                     'lax'  // sameSite
                 ));

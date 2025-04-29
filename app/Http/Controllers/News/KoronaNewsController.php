@@ -5,6 +5,7 @@ namespace App\Http\Controllers\News;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\KoronaNewResource;
 use App\Http\Resources\KoronaNewResourceCollection;
+use App\Http\Resources\KoronaNewResourceLatest;
 use App\Models\KoronaNew;
 
 class KoronaNewsController extends Controller
@@ -21,7 +22,7 @@ class KoronaNewsController extends Controller
 
     public function latest() // /api/news/latest
     {
-        return KoronaNewResource::collection(KoronaNew::latest()->take(4)->get());
+        return KoronaNewResourceLatest::collection(KoronaNew::latest()->take(4)->get());
     }
 
     public function show($slug)

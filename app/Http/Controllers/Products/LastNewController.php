@@ -7,22 +7,34 @@ use App\Models\Product;
 use App\Http\Resources\ProductsResource;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class LastNewController extends Controller
 {
-    public function __invoke(Request $request, ProductService $service){
+    public function __invoke(Request $request, ProductService $service)
+    {
+        try {
+            $page = max(1, (int) $request->input('page', 1));
+            $limit = min(20, (int) $request->input('limit', 5));
 
-        $page = $request->input('page', 1);
-        $limit = 5;
-        $maxTotal = 20;
+            $products = $service->getNewProducts($page, $limit);
 
-        $products = $service->getNew($page, $limit, $maxTotal);
+            return response()->json([
+                'data' => ProductsResource::collection($products),
+                'nextPage' => $products->hasMorePages() ? $page + 1 : null,
+                'total' => $products->total()
+            ]);
 
-        return ProductsResource::collection($products)->additional([
-            'nextPage' => $products->count() < $limit ? null : $page + 1,
-            'total' => $maxTotal,
-        ]);
+        } catch (\Exception $e) {
+            Log::error('LastNewController error', [
+                'error' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
 
+            return response()->json([
+                'message' => 'Failed to load new products'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-
 }

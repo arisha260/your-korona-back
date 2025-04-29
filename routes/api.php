@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/', \App\Http\Controllers\HomePageController::class);
+
 Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
     Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
     Route::get('/latest', [\App\Http\Controllers\News\KoronaNewsController::class, 'latest']);

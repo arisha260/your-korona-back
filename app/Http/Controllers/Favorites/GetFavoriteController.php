@@ -26,6 +26,9 @@ class GetFavoriteController extends Controller
             ->get()
             ->pluck('product');
 
-        return ProductsResource::collection($favorites);
+        return ProductsResource::collection($favorites)->additional([
+            "total" => $favorites->count(),
+
+        ]);
     }
 }

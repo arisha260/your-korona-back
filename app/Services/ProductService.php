@@ -4,45 +4,56 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class ProductService
 {
-    public function getPopular($limit = 10)
+    public function getPopular(int $limit = 10)
     {
-        return Product::orderByDesc('views')->take($limit)->get();
+        try {
+            return Product::orderByDesc('views')
+                ->take($limit)
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('ProductService getPopular error', [
+                'error' => $e->getMessage(),
+                'limit' => $limit
+            ]);
+            throw $e;
+        }
     }
 
+    public function getProductByCategory(
+        string $slug,
+        int $perPage = 20,
+        int $page = 1,
+        string $sort = 'newest',
+        ?string $search = null):  LengthAwarePaginator {
 
+        $category = Category::where('slug', $slug)
+            ->select('id')
+            ->firstOrFail();
 
-    public function getNew($page = 1, $limit = 20, $maxTotal = 20)
-    {
+        $query = Product::where('category_id', $category->id)
+            ->with(['category'])
+            ->when($search, function (Builder $query, string $search) {
+                $query->where('title', 'like', "%{$search}%");
+            });
 
-        $offset = ($page - 1) * $limit;
+        $this->applySorting($query, $sort);
 
-        if ($offset >= $maxTotal) {
-            return collect();
-        }
+        $paginator = $query->paginate(
+            perPage: $perPage,
+            page: max(1, $page)
+        );
 
-        $actualLimit = min($limit, $maxTotal - $offset);
-
-        return Product::orderByDesc('created_at')
-            ->orderByDesc('id')
-            ->skip($offset)
-            ->take($actualLimit)
-            ->get();
-
+        return $paginator->appends(request()->query());
     }
 
-    public function getProductByCategory($slug, $limit = 20, $page = 1, $sort = 'newest', $search = null)
+    protected function applySorting(Builder $query, string $sort): void
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
-
-        $query = Product::where('category_id', $category->id);
-
-        if ($search) {
-            $query->where('title', 'like', '%' . $search . '%');
-        }
-
         switch ($sort) {
             case 'price':
                 $query->orderBy('actual_price');
@@ -56,8 +67,23 @@ class ProductService
                 break;
         }
 
-        return $query->paginate($limit, ['*'], 'page', $page);
+        // Дополнительная сортировка для стабильности пагинации
+        $query->orderBy('id');
     }
 
-
+    public function getNewProducts(int $page = 1, int $limit = 20): LengthAwarePaginator
+    {
+        try {
+            return Product::orderByDesc('created_at')
+                ->orderByDesc('id')
+                ->paginate($limit, ['*'], 'page', $page);
+        } catch (\Exception $e) {
+            Log::error('ProductService getNewProducts error', [
+                'error' => $e->getMessage(),
+                'page' => $page,
+                'limit' => $limit
+            ]);
+            throw $e;
+        }
+    }
 }
