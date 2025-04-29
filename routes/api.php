@@ -33,5 +33,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favo
     Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
 });
 
+Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], function() {
+    Route::get('/add', \App\Http\Controllers\Cart\AddController::class);
+    Route::delete('/delete/{id}', \App\Http\Controllers\Cart\DeleteController::class);
+    Route::delete('/clear', \App\Http\Controllers\Cart\ClearAllController::class);
+    Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
+});
+
 
 Route::get('/categories', \App\Http\Controllers\Categories\IndexController::class);

@@ -15,20 +15,13 @@ class GetFavoriteController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $token = $request->cookie('user_token');
-
-        if (!$token) {
-            return response()->json(['error' => 'Token not found'], 401);
-        }
-
-        $favorites = Favorite::where('token', $token)
+        $favorites = Favorite::where('token', $request->cookie('user_token'))
             ->with('product')
             ->get()
             ->pluck('product');
 
         return ProductsResource::collection($favorites)->additional([
-            "total" => $favorites->count(),
-
+            "total" => $favorites->count()
         ]);
     }
 }

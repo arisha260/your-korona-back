@@ -17,7 +17,7 @@ class ToggleFavoriteController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $token = $request->cookie('user_token') ?? (string) Str::uuid();
+        $token = $request->cookie('user_token');
         $productId = $request->input('product_id');
 
         if (!$productId) {
@@ -30,20 +30,7 @@ class ToggleFavoriteController extends Controller
 
         if ($existing) {
             $existing->delete();
-            return response()
-                ->json(['removed' => true])
-                ->withCookie(
-                    new Cookie(
-                        'user_token',
-                        $token,
-                        time() + 60 * 60 * 24 * 30, // вот здесь время жизни в UNIX timestamp!
-                        '/',  // path
-                        null, // domain
-                        false, // secure
-                        true, // httpOnly
-                        false, // raw
-                        'lax'  // sameSite
-                    ));
+            return response()->json(['removed' => true]);
         }
 
         Favorite::create([
@@ -51,19 +38,6 @@ class ToggleFavoriteController extends Controller
             'product_id' => $productId,
         ]);
 
-        return response()
-            ->json(['added' => true])
-            ->withCookie(
-                new Cookie(
-                    'user_token',
-                    $token,
-                    time() + 60 * 60 * 24 * 30, // вот здесь время жизни в UNIX timestamp!
-                    '/',  // path
-                    null, // domain
-                    false, // secure
-                    true, // httpOnly
-                    false, // raw
-                    'lax'  // sameSite
-                ));
+        return response()->json(['added' => true]);
     }
 }

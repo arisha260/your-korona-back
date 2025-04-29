@@ -32,24 +32,43 @@ class ProductService
         string $sort = 'newest',
         ?string $search = null):  LengthAwarePaginator {
 
-        $category = Category::where('slug', $slug)
-            ->select('id')
-            ->firstOrFail();
+        try {
+            $category = Category::where('slug', $slug)
+                ->select('id')
+                ->firstOrFail();
 
-        $query = Product::where('category_id', $category->id)
-            ->with(['category'])
-            ->when($search, function (Builder $query, string $search) {
-                $query->where('title', 'like', "%{$search}%");
-            });
+            $query = Product::where('category_id', $category->id)
+                ->select([
+                    'id',
+                    'title',
+                    'slug',
+                    'actual_price',
+                    'old_price',
+                    'photos',
+                    'views',
+                    'created_at',
+                    'category_id'
+                ])
+                ->with(['category' => function($query) {
+                    $query->select('id', 'name', 'slug');
+                }])
+                ->when($search, function (Builder $query, string $search) {
+                    $query->where('title', 'like', "%{$search}%");
+                });
 
-        $this->applySorting($query, $sort);
+            $this->applySorting($query, $sort);
 
-        $paginator = $query->paginate(
-            perPage: $perPage,
-            page: max(1, $page)
-        );
+            return $query->paginate($perPage, ['*'], 'page', max(1, $page))
+                ->appends(request()->except('page'));
 
-        return $paginator->appends(request()->query());
+        } catch (\Exception $e) {
+            Log::error('ProductService getProductByCategory error', [
+                'error' => $e->getMessage(),
+                'slug' => $slug,
+                'params' => compact('perPage', 'page', 'sort', 'search')
+            ]);
+            throw $e;
+        }
     }
 
     protected function applySorting(Builder $query, string $sort): void
