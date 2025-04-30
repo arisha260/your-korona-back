@@ -13,50 +13,89 @@ class CartService
 {
     public function getCart(string $userToken): Cart
     {
-        return Cart::firstOrCreate(['user_token' => $userToken]);
+        return Cart::firstOrCreate(['token' => $userToken]);
     }
 
-    public function addItem(string $userToken, int $productId, int $quantity = 1): CartItem
+    public function addItem(string $userToken, int $productId, int $quantity = 1): ?array
     {
         $cart = $this->getCart($userToken);
 
-        return CartItem::updateOrCreate(
-            [
-                'cart_id' => $cart->id,
-                'product_id' => $productId
-            ],
-            [
-                'quantity' => DB::raw("quantity + $quantity")
-            ]
-        )->load('product');
+        $existingItem = $cart->items()->where('product_id', $productId)->first();
+
+        if ($existingItem) {
+            return null;
+        }
+
+        $item = $cart->items()->create([
+            'product_id' => $productId,
+            'quantity' => $quantity
+        ]);
+
+        return [
+            'item' => $item->load('product'),
+            'total_items' => $cart->items()->sum('quantity'),
+            'total_price' => $this->calculateTotalPrice($cart)
+        ];
     }
 
-    public function updateItem(string $userToken, int $productId, int $quantity): bool
+    public function updateItem(string $userToken, int $productId, int $quantity): array
     {
-        return CartItem::whereHas('cart', fn($q) => $q->where('user_token', $userToken))
-                ->where('product_id', $productId)
-                ->update(['quantity' => $quantity]) > 0;
+        $cart = $this->getCart($userToken);
+
+        $cart->items()
+            ->where('product_id', $productId)
+            ->update(['quantity' => $quantity]);
+
+        return [
+            'success' => true,
+            'total_items' => $cart->items()->sum('quantity'),
+            'total_price' => $this->calculateTotalPrice($cart)
+        ];
     }
 
-    public function removeItem(string $userToken, int $productId): bool
+    public function removeItem(string $userToken, int $productId): array
     {
-        return CartItem::whereHas('cart', fn($q) => $q->where('user_token', $userToken))
-                ->where('product_id', $productId)
-                ->delete() > 0;
+        $cart = $this->getCart($userToken);
+        $cart->items()->where('product_id', $productId)->delete();
+
+        return [
+            'success' => true,
+            'total_items' => $cart->items()->sum('quantity'),
+            'total_price' => $this->calculateTotalPrice($cart)
+        ];
     }
 
-    public function clearCart(string $userToken): bool
+    public function getCartWithItems(string $userToken): array
     {
-        return CartItem::whereHas('cart', fn($q) => $q->where('user_token', $userToken))
-                ->delete() > 0;
-    }
-
-    public function getCartWithItems(string $userToken): Cart
-    {
-        return Cart::with(['items.product'])
-            ->where('user_token', $userToken)
+        $cart = Cart::with(['items' => function($query) {
+            $query->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')->with('product');
+        }])->where('token', $userToken)
             ->firstOr(function () use ($userToken) {
                 return $this->getCart($userToken);
             });
+
+        return [
+            'items' => $cart->items,
+            'total_items' => $cart->items->sum('quantity'),
+            'total_price' => $this->calculateTotalPrice($cart),
+            'subtotal' => $this->calculateSubtotal($cart)
+        ];
+    }
+
+    protected function calculateTotalPrice(Cart $cart): float
+    {
+        return $cart->items->sum(function ($item) {
+            return $item->product->actual_price * $item->quantity;
+        });
+    }
+
+    protected function calculateSubtotal(Cart $cart): float
+    {
+        return $cart->items->sum(function ($item) {
+            return $item->product->old_price
+                ? $item->product->old_price * $item->quantity
+                : $item->product->actual_price * $item->quantity;
+        });
     }
 }
