@@ -65,6 +65,15 @@ class CartService
         ];
     }
 
+    public function clearCart(string $userToken): array
+    {
+        $cart = $this->getCart($userToken)->delete();
+
+        return [
+            'success' => true,
+        ];
+    }
+
     public function getCartWithItems(string $userToken): array
     {
         $cart = Cart::with(['items' => function($query) {
