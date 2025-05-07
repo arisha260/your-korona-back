@@ -10,15 +10,20 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'client_name' => $this->client_name,
-            'client_tel' => $this->client_tel,
-            'client_address' => $this->client_address,
-            'client_comment' => $this->client_comment,
-            'quantity' => $this->quantity,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'products' => OrderProductResource::collection($this->whenLoaded('products')),
+            'token' => $this->token,
+            'items' => $this->items->map(function ($item) {
+                return [
+                    'id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'title' => $item->product->title,
+                    'price' => $item->product->actual_price,
+                    'photo' => $item->product->photos[0] ?? null,
+                ];
+            }),
+            'total' => $this->items->sum(function ($item) {
+                return $item->quantity * $item->product->actual_price;
+            }),
+            'items_count' => $this->items->sum('quantity'),
         ];
     }
 }

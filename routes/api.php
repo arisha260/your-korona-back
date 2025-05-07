@@ -43,5 +43,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], f
     Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
 });
 
+Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'], function() {
+    Route::post('/create', \App\Http\Controllers\Order\CreateController::class);
+});
 
 Route::get('/categories', \App\Http\Controllers\Categories\IndexController::class);
