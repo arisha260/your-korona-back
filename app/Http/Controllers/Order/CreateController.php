@@ -7,11 +7,13 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Resources\KoronaNewResource;
 use App\Http\Resources\KoronaNewResourceCollection;
 use App\Http\Resources\ProductsResource;
+use App\Mail\OrderCreated;
 use App\Models\Favorite;
 use App\Models\KoronaNew;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CreateController extends Controller
 {
@@ -50,6 +52,8 @@ class CreateController extends Controller
                 'quantity' => $item['quantity'],
             ]);
         }
+
+        Mail::to($order->client_email)->send(new OrderCreated($order));
 
         return response()->json(['message' => 'Заказ успешно создан', 'order_id' => $order->id], 201);
     }

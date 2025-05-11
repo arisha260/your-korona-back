@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,3 +49,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'],
 });
 
 Route::get('/categories', \App\Http\Controllers\Categories\IndexController::class);
+
+
+Route::get('/test-mail', function () {
+    $order = App\Models\Order::latest()->first();
+    Mail::to('Lmorin2005@mail.ru')->send(new App\Mail\OrderCreated($order));
+    return 'Письмо отправлено!';
+});
