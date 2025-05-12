@@ -26,8 +26,8 @@
                 <tr>
                     <td style="font-size: 16px; color: #000;">
                         Дата: {{ $order->created_at->format('d.m.Y H:i') }}<br>
-                        Доставка: {{ $order->delivery_method }}<br>
-                        Оплата: {{ $order->payment_method }}
+                        Доставка: {{ $order->delivery_method_label }}<br>
+                        Оплата: {{ $order->payment_method_label }}
                     </td>
                 </tr>
                 <tr>
