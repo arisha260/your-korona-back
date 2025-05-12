@@ -12,8 +12,12 @@ use App\Models\Favorite;
 use App\Models\KoronaNew;
 use App\Models\Order;
 use App\Models\Product;
+use App\Notifications\NewOrderTelegramNotification;
+use App\Services\tg\OrderTelegramFormatter;
+use App\Services\tg\TelegramService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class CreateController extends Controller
 {
@@ -52,6 +56,10 @@ class CreateController extends Controller
                 'quantity' => $item['quantity'],
             ]);
         }
+
+
+        Notification::route('telegram', config('services.telegram.chat_id'))
+            ->notify(new NewOrderTelegramNotification($order));
 
         Mail::to($order->client_email)->send(new OrderCreated($order));
 

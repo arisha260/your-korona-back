@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TGBot\TelegramBotController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -50,9 +52,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'],
 
 Route::get('/categories', \App\Http\Controllers\Categories\IndexController::class);
 
+Route::post('/telegram/webhook', [TelegramBotController::class, 'handle']);
 
 Route::get('/test-mail', function () {
     $order = App\Models\Order::latest()->first();
     Mail::to('Lmorin2005@mail.ru')->send(new App\Mail\OrderCreated($order));
     return 'Письмо отправлено!';
+});
+
+
+Route::get('/redis-test', function () {
+    Cache::put('test_key', 'Привет, Redis!', 600);
+    return Cache::get('test_key'); // должен вернуть "Привет, Redis!"
 });
