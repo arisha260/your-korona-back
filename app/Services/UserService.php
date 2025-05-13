@@ -28,6 +28,10 @@ class UserService
 
     protected function getCart(Request $request, CartService $service): array
     {
+        Log::debug('user_token from cookie', [
+            'cookie' => $request->cookie('user_token'),
+            'all_cookies' => $request->cookies->all()
+        ]);
         return $service->getCartWithItems($request->cookie('user_token'));
     }
 

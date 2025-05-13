@@ -16,6 +16,9 @@ class HandleUserToken
 
         if (!$token) {
             $token = (string)Str::uuid();
+
+//            $request->cookies->set('user_token', $token);
+
             $response = $next($request);
             return $this->attachCookie($response, $token);
         }
