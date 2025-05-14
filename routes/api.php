@@ -8,7 +8,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Http\Controllers\HomePageController::class);
 
+//Route::middleware(\App\Http\Middleware\HandleUserToken::class)->group(function () {
+//
+//});
+
 Route::get('/me', \App\Http\Controllers\UserController::class);
+
+Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], function() {
+    Route::get('/', \App\Http\Controllers\Cart\GetController::class);
+    Route::post('/add', \App\Http\Controllers\Cart\AddController::class);
+    Route::delete('/delete/{id}', \App\Http\Controllers\Cart\DeleteController::class);
+    Route::delete('/clear', \App\Http\Controllers\Cart\ClearAllController::class);
+    Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favorites'], function() {
+    Route::get('/me', \App\Http\Controllers\Favorites\GetFavoriteController::class);
+    Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
+});
 
 Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
     Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
@@ -33,18 +50,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/{slug}', \App\Http\Controllers\Products\ByCategory::class);
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favorites'], function() {
-    Route::get('/me', \App\Http\Controllers\Favorites\GetFavoriteController::class);
-    Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
-});
-
-Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], function() {
-    Route::get('/', \App\Http\Controllers\Cart\GetController::class);
-    Route::post('/add', \App\Http\Controllers\Cart\AddController::class);
-    Route::delete('/delete/{id}', \App\Http\Controllers\Cart\DeleteController::class);
-    Route::delete('/clear', \App\Http\Controllers\Cart\ClearAllController::class);
-    Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
-});
 
 Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'], function() {
     Route::post('/create', \App\Http\Controllers\Order\CreateController::class);
