@@ -1,13 +1,46 @@
 <?php
 
-use App\Http\Controllers\TGBot\TelegramBotController;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Auth\GetUserController;
+use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 
+// Важно: web — для сессий, cookies, CSRF и работы sanctum через браузер
+Route::middleware(['web'])->group(function () {
 
-Route::get('/me', fn () => auth()->user());
+    // 🔓 Публичные маршруты (логин, регистрация)
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::get('/dashboard', function () {
-    return response()->json(['message' => 'Welcome to Admin Dashboard']);
+    // 🔐 Приватные маршруты — только для аутентифицированного админа
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        Route::get('/me', GetUserController::class);
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+
+        // Пример защищённого маршрута
+        Route::get('/dashboard', fn () => response()->json(['message' => 'Добро пожаловать, админ']));
+    });
+
+    // 🕒 Можно будет позже раскомментировать, если понадобится:
+    /*
+    // Восстановление пароля
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
+    Route::post('/reset-password', [NewPasswordController::class, 'store']);
+
+    // Подтверждение email
+    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+        ->middleware(['auth:sanctum', 'signed'])
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware(['auth:sanctum'])
+        ->name('verification.send');
+    */
 });
+
+
+
+Route::middleware(['auth:sanctum'])->get('/test', function () {
+    return response()->json(auth()->user());
+});
+

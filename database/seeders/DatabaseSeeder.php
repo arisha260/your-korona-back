@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             KoronaNewSeeder::class,
             KoronaReviewSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

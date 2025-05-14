@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'throttle.api' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
             'abilities' => CheckAbilities::class,
             'ability' => CheckForAnyAbility::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
 
         $middleware->group('api', [

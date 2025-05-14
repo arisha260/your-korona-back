@@ -70,3 +70,7 @@ Route::get('/redis-test', function () {
     Cache::put('test_key', 'Привет, Redis!', 600);
     return Cache::get('test_key'); // должен вернуть "Привет, Redis!"
 });
+
+Route::get('/admin/test', function () {
+    return response()->json(auth()->user());
+});
