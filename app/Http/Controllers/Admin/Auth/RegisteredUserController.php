@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', Rule::enum(UserRole::class)],
+//            'role' => ['required', Rule::enum(UserRole::class)],
         ]);
 
         $user = User::create([
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+//        Auth::login($user);
 
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }

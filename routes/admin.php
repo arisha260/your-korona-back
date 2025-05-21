@@ -10,12 +10,12 @@ Route::middleware(['web'])->group(function () {
 
     // 🔓 Публичные маршруты (логин, регистрация)
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-    Route::post('/register', [RegisteredUserController::class, 'store']);
 
     // 🔐 Приватные маршруты — только для аутентифицированного админа
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::get('/me', GetUserController::class);
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+        Route::post('/register', [RegisteredUserController::class, 'store']);
 
         // Пример защищённого маршрута
         Route::get('/dashboard', fn () => response()->json(['message' => 'Добро пожаловать, админ']));
