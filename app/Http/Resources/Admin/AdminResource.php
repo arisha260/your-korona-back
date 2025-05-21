@@ -13,7 +13,6 @@ class AdminResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
             'role' => $this->role,
         ];
     }

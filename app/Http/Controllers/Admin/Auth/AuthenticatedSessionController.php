@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
+use App\Http\Resources\Admin\AdminResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return response()->json(['message' => 'Logged in successfully'], 200);
+        return response()->json([
+            'message' => 'Logged in successfully',
+            'admin' => new AdminResource($request->user()),
+        ]);
     }
 
     /**
@@ -27,12 +31,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
+        try {
+            Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        $request->session()->regenerateToken();
-
-        return response()->json(['message' => 'Logged out successfully'], 200);
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ошибка при выходе из системы. Попробуйте позже.',
+            ], 500);
+        }
     }
 }

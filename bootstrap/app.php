@@ -39,7 +39,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->group('admin', [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'auth:sanctum',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 
