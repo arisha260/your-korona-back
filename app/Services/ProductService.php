@@ -35,7 +35,11 @@ class ProductService
         try {
             $category = Category::where('slug', $slug)
                 ->select('id')
-                ->firstOrFail();
+                ->first();
+
+            if (!$category) {
+                abort(404, 'Категория не найдена');
+            }
 
             $query = Product::where('category_id', $category->id)
                 ->select([

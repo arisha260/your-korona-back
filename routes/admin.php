@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Auth\GetUserController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Auth\GetUserController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Route;
 
 // Важно: web — для сессий, cookies, CSRF и работы sanctum через браузер
 Route::middleware(['web'])->group(function () {
@@ -18,8 +18,10 @@ Route::middleware(['web'])->group(function () {
         Route::post('/register', [RegisteredUserController::class, 'store']);
 
 
-        Route::get('/categories', \App\Http\Controllers\Categories\AdminIndexController::class);
-        Route::delete('/delete/category/{id}', \App\Http\Controllers\Categories\AdminDeleteController::class);
+        Route::get('/categories', \App\Http\Controllers\Categories\admin\AdminIndexController::class);
+        Route::delete('/delete/category/{id}', \App\Http\Controllers\Categories\admin\AdminDeleteController::class);
+        Route::post('/delete/category/transfer', \App\Http\Controllers\Categories\admin\AdminTransferProductsController::class);
+        Route::post('/delete/category/products', \App\Http\Controllers\Categories\admin\AdminDeleteWithProductsController::class);
 
         // Пример защищённого маршрута
         Route::get('/dashboard', fn () => response()->json(['message' => 'Добро пожаловать, админ']));

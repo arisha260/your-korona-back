@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Categories;
+namespace App\Http\Controllers\Categories\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Http\Resources\CategoryResource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Services\admin\CategoryService;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 
 class AdminDeleteController extends Controller
 {
+
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function __invoke($id){
 
         $category = Category::withCount('products')->findOrFail($id);
@@ -28,6 +33,8 @@ class AdminDeleteController extends Controller
         }
 
         $category->delete();
+
+        $this->categoryService->clearCache();
 
         return response()->json(['message' => 'Категория удалена']);
     }

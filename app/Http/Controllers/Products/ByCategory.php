@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Http\Resources\ProductsResource;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ByCategory extends Controller
 {
@@ -16,25 +17,17 @@ class ByCategory extends Controller
         string $slug,
         ProductService $productService
     ) {
-        try {
-            $products = $productService->getProductByCategory(
-                slug: $slug,
-                perPage: $request->input('per_page', 20),
-                page: $request->input('page', 1),
-                sort: $request->input('sort', 'newest'),
-                search: $request->input('search')
-            );
+        $products = $productService->getProductByCategory(
+            slug: $slug,
+            perPage: $request->input('per_page', 20),
+            page: $request->input('page', 1),
+            sort: $request->input('sort', 'newest'),
+            search: $request->input('search')
+        );
 
-            return ProductsResource::collection($products)->additional([
-                'nextPage' => $products->hasMorePages() ? $products->currentPage() + 1 : null,
-                'total' => $products->total(),
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to load products',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        return ProductsResource::collection($products)->additional([
+            'nextPage' => $products->hasMorePages() ? $products->currentPage() + 1 : null,
+            'total' => $products->total(),
+        ]);
     }
 }
