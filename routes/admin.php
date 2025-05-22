@@ -17,6 +17,10 @@ Route::middleware(['web'])->group(function () {
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
         Route::post('/register', [RegisteredUserController::class, 'store']);
 
+
+        Route::get('/categories', \App\Http\Controllers\Categories\AdminIndexController::class);
+        Route::delete('/delete/category/{id}', \App\Http\Controllers\Categories\AdminDeleteController::class);
+
         // Пример защищённого маршрута
         Route::get('/dashboard', fn () => response()->json(['message' => 'Добро пожаловать, админ']));
     });
