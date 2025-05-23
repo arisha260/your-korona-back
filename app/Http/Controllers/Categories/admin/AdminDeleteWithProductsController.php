@@ -31,11 +31,17 @@ class AdminDeleteWithProductsController extends Controller
 
         $category = Category::findOrFail($request->categoryId);
 
-        Product::where('category_id', $category->id)->delete();
+        Product::where('category_id', $category->id)->update([
+            'is_archived' => true,
+            'category_id' => null,
+        ]);
+
         $category->delete();
 
         $this->categoryService->clearCache();
 
-        return response()->json(['message' => 'Категория и её товары удалены']);
+        return response()->json([
+            'message' => 'Категория удалена. Все связанные товары архивированы.'
+        ]);
     }
 }

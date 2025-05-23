@@ -16,7 +16,16 @@ class CategoryService
 
     public function clearCache()
     {
-        Cache::forget('admin_categories_all');
-        Cache::forget('categories_all');
+
+        $keys = [
+            'admin_categories_all',
+            'categories_all',
+            'popular_products',
+            // Добавь сюда всё нужное
+        ];
+
+        foreach ($keys as $key) {
+            Cache::forget($key);
+        }
     }
 }

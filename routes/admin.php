@@ -22,9 +22,7 @@ Route::middleware(['web'])->group(function () {
         Route::delete('/delete/category/{id}', \App\Http\Controllers\Categories\admin\AdminDeleteController::class);
         Route::post('/delete/category/transfer', \App\Http\Controllers\Categories\admin\AdminTransferProductsController::class);
         Route::post('/delete/category/products', \App\Http\Controllers\Categories\admin\AdminDeleteWithProductsController::class);
-
-        // Пример защищённого маршрута
-        Route::get('/dashboard', fn () => response()->json(['message' => 'Добро пожаловать, админ']));
+        Route::post('/category/add', \App\Http\Controllers\Categories\admin\AdminAddCategoryController::class);
     });
 
     // 🕒 Можно будет позже раскомментировать, если понадобится:

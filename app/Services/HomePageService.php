@@ -30,7 +30,7 @@ class HomePageService
     protected function getPopularProducts()
     {
         return $this->cache('popular_products', 300, function () {
-            return Product::orderByDesc('views')->take(10)->get();
+            return Product::active()->orderByDesc('views')->take(10)->get();
         }, 'Failed to load popular products');
     }
 
@@ -62,7 +62,7 @@ class HomePageService
             $limit = 5;
             $maxTotal = 20;
 
-            $products = Product::orderByDesc('created_at')
+            $products = Product::active()->orderByDesc('created_at')
                 ->orderByDesc('id')
                 ->take($limit)
                 ->get();

@@ -24,6 +24,7 @@ class ProductsResource extends JsonResource
             'quantity' => $this->quantity,
             'views' => $this->views,
             'isNew' => $this->is_new,
+            'is_archived' => $this->is_archived,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
