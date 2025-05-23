@@ -11,7 +11,7 @@ class IndexController extends Controller
 {
     public function __invoke(Request $request){
         $perPage = $request->get('per_page', 20);
-        $products = Product::paginate($perPage);
+        $products = Product::active()->paginate($perPage);
         return ProductsResource::collection($products);
     }
 }

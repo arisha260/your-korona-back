@@ -18,7 +18,7 @@ class SearchAllController extends Controller
         // По умолчанию 10, если запрашиваем все — большое число
         $perPage = $loadAll ? 1000 : 10;
 
-        $productsQuery = Product::query()
+        $productsQuery = Product::active()
             ->when($query, function ($q) use ($query) {
                 $q->where('title', 'like', "%{$query}%");
             })

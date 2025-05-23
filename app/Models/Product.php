@@ -73,4 +73,9 @@ class Product extends Model
             $this->attributes['slug'] = $value;
         }
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
 }

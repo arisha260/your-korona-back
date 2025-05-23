@@ -14,6 +14,7 @@ class ProductService
     {
         try {
             return Product::orderByDesc('views')
+                ->active()
                 ->take($limit)
                 ->get();
         } catch (\Exception $e) {
@@ -41,7 +42,7 @@ class ProductService
                 abort(404, 'Категория не найдена');
             }
 
-            $query = Product::where('category_id', $category->id)
+            $query = Product::active()->where('category_id', $category->id)
                 ->select([
                     'id',
                     'title',
@@ -98,6 +99,7 @@ class ProductService
     {
         try {
             return Product::orderByDesc('created_at')
+                ->active()
                 ->orderByDesc('id')
                 ->paginate($limit, ['*'], 'page', $page);
         } catch (\Exception $e) {

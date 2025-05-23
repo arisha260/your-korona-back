@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description');
             $table->json('photos')->nullable();
-            $table->foreignId('category_id')->constrained(
+            $table->boolean('is_archived')->default(false);
+            $table->foreignId('category_id')->nullable()->constrained(
                 table: 'categories', indexName: 'id'
             );
             $table->unsignedInteger('actual_price');
