@@ -36,9 +36,9 @@ class CategoryPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Category $category): bool
+    public function update(User $user): bool
     {
-        return false;
+        return $user->role === UserRole::Admin;
     }
 
     /**

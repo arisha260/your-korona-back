@@ -23,6 +23,7 @@ Route::middleware(['web'])->group(function () {
         Route::post('/delete/category/transfer', \App\Http\Controllers\Categories\admin\AdminTransferProductsController::class);
         Route::post('/delete/category/products', \App\Http\Controllers\Categories\admin\AdminDeleteWithProductsController::class);
         Route::post('/category/add', \App\Http\Controllers\Categories\admin\AdminAddCategoryController::class);
+        Route::post('/category/update/{id}', \App\Http\Controllers\Categories\admin\AdminUpdateController::class);
     });
 
     // 🕒 Можно будет позже раскомментировать, если понадобится:

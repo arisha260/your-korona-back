@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Categories\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Services\admin\CategoryService;
-use Illuminate\Support\Facades\Cache;
+use App\Services\cache\CategoryService;
 use Illuminate\Support\Facades\Gate;
 
 class AdminIndexController extends Controller

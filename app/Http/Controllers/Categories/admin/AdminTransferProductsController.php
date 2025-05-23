@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Categories\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\admin\CategoryService;
+use App\Services\cache\CategoryService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class AdminTransferProductsController extends Controller

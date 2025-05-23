@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Categories\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Services\admin\CategoryService;
+use App\Services\cache\CategoryService;
 use Illuminate\Support\Facades\Gate;
 
 class AdminDeleteController extends Controller

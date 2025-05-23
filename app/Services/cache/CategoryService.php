@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\admin;
+namespace App\Services\cache;
 
 use App\Models\Category;
 use Illuminate\Support\Facades\Cache;
@@ -21,7 +21,6 @@ class CategoryService
             'admin_categories_all',
             'categories_all',
             'popular_products',
-            // Добавь сюда всё нужное
         ];
 
         foreach ($keys as $key) {

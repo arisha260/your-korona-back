@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
+use App\Observers\CategoryObserver;
+use App\Observers\ProductObserver;
 use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -33,5 +36,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(User::class, AdminPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
+
+        Category::observe(CategoryObserver::class);
+        Product::observe(ProductObserver::class);
     }
 }
