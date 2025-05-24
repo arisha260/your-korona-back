@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\admin\AdminService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,11 +16,14 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+
+    protected $adminService;
+
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -37,6 +41,8 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $this->adminService->clearCache();
 
 //        Auth::login($user);
 
