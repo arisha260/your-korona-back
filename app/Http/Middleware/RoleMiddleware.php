@@ -13,7 +13,7 @@ class RoleMiddleware
         $user = $request->user();
 
         if (! $user || ! in_array($user->role->value, $roles)) {
-            abort(403, 'Access denied');
+            abort(403, 'Ошибка доступа!');
         }
 
         return $next($request);

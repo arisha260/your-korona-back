@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Database\Factories\AdminFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,7 +18,7 @@ class AdminSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'role' => 'admin',
+            'role' => UserRole::SuperAdmin,
         ]);
 
         echo "Super admin: {$admin->email} / password: password\n";

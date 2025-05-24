@@ -14,7 +14,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -22,7 +22,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -30,7 +30,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -38,7 +38,7 @@ class CategoryPolicy
      */
     public function update(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -46,7 +46,7 @@ class CategoryPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**

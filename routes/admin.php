@@ -12,11 +12,9 @@ Route::middleware(['web'])->group(function () {
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
     // 🔐 Приватные маршруты — только для аутентифицированного админа
-    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::middleware(['auth:sanctum', 'role:admin,super-admin'])->group(function () {
         Route::get('/me', GetUserController::class);
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-        Route::post('/register', [RegisteredUserController::class, 'store']);
-
 
         Route::get('/categories', \App\Http\Controllers\Categories\admin\AdminIndexController::class);
         Route::delete('/delete/category/{id}', \App\Http\Controllers\Categories\admin\AdminDeleteController::class);
@@ -25,28 +23,15 @@ Route::middleware(['web'])->group(function () {
         Route::post('/category/add', \App\Http\Controllers\Categories\admin\AdminAddCategoryController::class);
         Route::post('/category/update/{id}', \App\Http\Controllers\Categories\admin\AdminUpdateController::class);
 
-
-
-        Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function() {
+        Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function () {
             Route::get('/admins', \App\Http\Controllers\Users\Admin\AdminIndexController::class);
         });
     });
 
-    // 🕒 Можно будет позже раскомментировать, если понадобится:
-    /*
-    // Восстановление пароля
-    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
-    Route::post('/reset-password', [NewPasswordController::class, 'store']);
-
-    // Подтверждение email
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['auth:sanctum', 'signed'])
-        ->name('verification.verify');
-
-    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware(['auth:sanctum'])
-        ->name('verification.send');
-    */
+    Route::middleware(['auth:sanctum', 'role:super-admin'])->group(function () {
+        Route::post('/register', [RegisteredUserController::class, 'store']);
+        Route::delete('/users/admins/delete/{id}', \App\Http\Controllers\Users\Admin\AdminDeleteController::class);
+    });
 });
 
 

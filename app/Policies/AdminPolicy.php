@@ -13,7 +13,7 @@ class AdminPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::Admin || $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -29,7 +29,7 @@ class AdminPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -38,7 +38,7 @@ class AdminPolicy
 
     public function update(User $user, User $model): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::SuperAdmin;
     }
 
     /**
@@ -46,7 +46,7 @@ class AdminPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->role === UserRole::Admin;
+        return $user->role === UserRole::SuperAdmin;
     }
 
     /**
