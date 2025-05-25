@@ -25,4 +25,22 @@ class KoronaNew extends Model
             $this->attributes['slug'] = $value;
         }
     }
+
+
+    protected static function booted()
+    {
+        static::creating(function ($new) {
+            if (empty($new->slug)) {
+                $baseSlug = Str::slug($new->title);
+                $slug = $baseSlug;
+                $i = 1;
+
+                while (KoronaNew::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $i++;
+                }
+
+                $new->slug = $slug;
+            }
+        });
+    }
 }

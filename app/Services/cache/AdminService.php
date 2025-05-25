@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services\admin;
+namespace App\Services\cache;
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 

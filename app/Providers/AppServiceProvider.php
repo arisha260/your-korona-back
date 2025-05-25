@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\KoronaNew;
 use App\Models\Product;
 use App\Models\User;
 use App\Observers\CategoryObserver;
 use App\Observers\ProductObserver;
+use App\Observers\UserObserver;
 use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
+use App\Policies\KoronaNewsPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -36,8 +39,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(User::class, AdminPolicy::class);
         Gate::policy(Category::class, CategoryPolicy::class);
+        Gate::policy(KoronaNew::class, KoronaNewsPolicy::class);
 
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
+        User::observe(UserObserver::class);
     }
 }

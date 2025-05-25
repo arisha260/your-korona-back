@@ -23,6 +23,12 @@ Route::middleware(['web'])->group(function () {
         Route::post('/category/add', \App\Http\Controllers\Categories\admin\AdminAddCategoryController::class);
         Route::post('/category/update/{id}', \App\Http\Controllers\Categories\admin\AdminUpdateController::class);
 
+
+        Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
+            Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
+            Route::post('/create', \App\Http\Controllers\News\Admin\AdminCreateNewController::class);
+        });
+
         Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function () {
             Route::get('/admins', \App\Http\Controllers\Users\Admin\AdminIndexController::class);
         });
