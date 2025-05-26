@@ -26,26 +26,25 @@ class AdminCreateNewController extends Controller
     {
         Gate::authorize('create', KoronaNew::class);
 
-        $imagePath = 'https://storage.yandexcloud.net/your-korona-bucket/cover/news/news.png'; // дефолт
+        $relativePath = 'cover/news/news.png'; // дефолт
 
 
         if ($request->hasFile('img')) {
             $file = $request->file('img');
             $filename = uniqid('news_') . '.' . $file->getClientOriginalExtension();
-            $path = Storage::disk('yandex')->putFileAs('cover/news', $file, $filename);
 
-            if (!$path) {
+            $storedPath = Storage::disk('yandex')->putFileAs('cover/news', $file, $filename);
+
+            if (!$storedPath) {
                 throw new \Exception('Не удалось загрузить файл на диск');
             }
 
-            $imagePath = Storage::disk('yandex')->url($path);
-        } else {
-            $imagePath = 'https://storage.yandexcloud.net/your-korona-bucket/cover/news/news.png';
+            $relativePath = $storedPath;
         }
 
 
         KoronaNew::create([
-            'img' => $imagePath,
+            'img' => $relativePath,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
         ]);
