@@ -21,7 +21,7 @@ class koronaNewFactory extends Factory
             'title' => $this->faker->sentence(5),
             'slug' => Str::slug($this->faker->words(3, true)), // генерируем slug
             'description' => $this->faker->paragraph(4),
-            'img' => 'images/news.png',
+            'img' => 'https://storage.yandexcloud.net/your-korona-bucket/cover/news/news.png',
         ];
     }
 }

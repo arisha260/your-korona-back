@@ -10,6 +10,7 @@ use App\Http\Resources\KoronaNewResourceLatest;
 use App\Models\KoronaNew;
 use App\Services\cache\NewsService;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCreateNewController extends Controller
 {
@@ -23,11 +24,28 @@ class AdminCreateNewController extends Controller
 
     public function __invoke(KoronaNewsRequest $request)
     {
+        Gate::authorize('create', KoronaNew::class);
 
-        Gate::authorize('create');
+        $imagePath = 'https://storage.yandexcloud.net/your-korona-bucket/cover/news/news.png'; // дефолт
+
+
+        if ($request->hasFile('img')) {
+            $file = $request->file('img');
+            $filename = uniqid('news_') . '.' . $file->getClientOriginalExtension();
+            $path = Storage::disk('yandex')->putFileAs('cover/news', $file, $filename);
+
+            if (!$path) {
+                throw new \Exception('Не удалось загрузить файл на диск');
+            }
+
+            $imagePath = Storage::disk('yandex')->url($path);
+        } else {
+            $imagePath = 'https://storage.yandexcloud.net/your-korona-bucket/cover/news/news.png';
+        }
+
 
         KoronaNew::create([
-            'img' => 'images/news.png',
+            'img' => $imagePath,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
         ]);
@@ -35,7 +53,6 @@ class AdminCreateNewController extends Controller
         $this->newsService->clearCache();
 
         return response()->json(['message' => 'Новость успешно создана']);
-
     }
 
 }
