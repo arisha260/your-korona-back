@@ -33,7 +33,9 @@ class AdminUpdateNewController extends Controller
 
         if ($request->hasFile('img')) {
             // Удалить старую картинку, если она есть и не дефолтная
-            if ($new->img && Storage::disk('yandex')->exists($new->img)) {
+            if ($new->img &&
+                $new->img !== KoronaNew::DEFAULT_IMG &&
+                Storage::disk('yandex')->exists($new->img)) {
                 Storage::disk('yandex')->delete($new->img);
             }
 

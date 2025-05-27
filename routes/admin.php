@@ -29,6 +29,7 @@ Route::middleware(['web'])->group(function () {
             Route::post('/create', \App\Http\Controllers\News\Admin\AdminCreateNewController::class);
             Route::get('/show/{slug}', \App\Http\Controllers\News\Admin\AdminGetNewController::class);
             Route::post('/update/{id}', \App\Http\Controllers\News\Admin\AdminUpdateNewController::class);
+            Route::delete('/delete/{id}', \App\Http\Controllers\News\Admin\AdminDeleteNewController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function () {

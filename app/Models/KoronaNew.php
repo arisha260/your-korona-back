@@ -16,6 +16,8 @@ class KoronaNew extends Model
         'img',
     ];
 
+    const DEFAULT_IMG = 'cover/news/news.png';
+
     public function setSlugAttribute($value)
     {
         // Если slug не передан, генерируем его из title
