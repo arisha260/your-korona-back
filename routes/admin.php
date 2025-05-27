@@ -27,6 +27,8 @@ Route::middleware(['web'])->group(function () {
         Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
             Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
             Route::post('/create', \App\Http\Controllers\News\Admin\AdminCreateNewController::class);
+            Route::get('/show/{slug}', \App\Http\Controllers\News\Admin\AdminGetNewController::class);
+            Route::post('/update/{id}', \App\Http\Controllers\News\Admin\AdminUpdateNewController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function () {

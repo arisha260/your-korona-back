@@ -21,6 +21,7 @@ class AdminUpdateController extends Controller
 
     public function __invoke(Request $request, $id){
 
+
         Gate::authorize('update', Category::class);
 
         $request->validate([

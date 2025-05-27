@@ -7,6 +7,7 @@ use App\Models\KoronaNew;
 use App\Models\Product;
 use App\Models\User;
 use App\Observers\CategoryObserver;
+use App\Observers\NewObserver;
 use App\Observers\ProductObserver;
 use App\Observers\UserObserver;
 use App\Policies\AdminPolicy;
@@ -44,5 +45,6 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
         User::observe(UserObserver::class);
+        KoronaNew::observe(NewObserver::class);
     }
 }

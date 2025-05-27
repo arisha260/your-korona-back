@@ -20,6 +20,7 @@ class NewsService
 
         $keys = [
             'all_news',
+            'latest_news',
         ];
 
         foreach ($keys as $key) {
