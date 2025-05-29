@@ -24,7 +24,8 @@ class GetController extends Controller
             'items' => $cartData['items'],
             'total_items' => $cartData['total_items'], // Общее количество товаров
             'total_price' => $cartData['total_price'], // Общая стоимость
-            'subtotal' => $cartData['subtotal'] // Опционально
+            'subtotal' => $cartData['subtotal'], // Опционально
+            'discount' => $cartData['discount'] // Скидка
         ]);
     }
 }

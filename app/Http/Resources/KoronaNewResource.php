@@ -16,7 +16,8 @@ class KoronaNewResource extends JsonResource
             'description' => $this->description,
             'img' => $this->img,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'is_updated' => $this->created_at,
+            'updated_label' => $this->updated_label,
         ];
     }
 }

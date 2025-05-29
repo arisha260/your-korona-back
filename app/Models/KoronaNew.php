@@ -45,4 +45,20 @@ class KoronaNew extends Model
             }
         });
     }
+
+
+    public function getIsUpdatedAttribute()
+    {
+        return $this->updated_at->ne($this->created_at);
+    }
+
+
+    public function getUpdatedLabelAttribute()
+    {
+        if ($this->updated_at->ne($this->created_at)) {
+            return 'Обновлено: ' . $this->updated_at->format('d.m.Y H:i');
+        }
+
+        return null;
+    }
 }
