@@ -65,7 +65,7 @@ class NewOrderTelegramNotification extends Notification
             $message .= "💬 Комментарий: {$order->client_comment}\n";
         }
 
-        $message .= "📍 Статус: <b>{$order->status}</b>";
+        $message .= "📍 Статус: <b>{$order->status_label}</b>";
 
         return TelegramMessage::create()
             ->to(config('services.telegram.chat_id'))

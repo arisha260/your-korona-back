@@ -78,4 +78,10 @@ class Product extends Model
     {
         return $query->where('is_archived', false);
     }
+
+    public function getMainPhotoAttribute(): ?string
+    {
+        return $this->photos[0] ?? null;
+    }
+
 }

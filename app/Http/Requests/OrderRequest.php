@@ -32,7 +32,7 @@ class OrderRequest extends FormRequest
             'client_index' => 'nullable|string|max:20',
             'client_comment' => 'nullable|string',
 
-            'delivery_method' => 'required|in:pickup,russian_post,sdek,courier,yandex',
+            'delivery_method' => 'required|in:pickup,russian_post,cdek,courier,yandex',
             'payment_method' => 'required|in:cash,sbp,card',
 
             'products' => 'required|array',

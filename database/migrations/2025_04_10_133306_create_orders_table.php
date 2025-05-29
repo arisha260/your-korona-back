@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('client_token')->nullable();
 
             // Способы доставки и оплаты
-            $table->enum('delivery_method', ['pickup', 'russian_post', 'sdek', 'courier'])->default('pickup');
+            $table->enum('delivery_method', ['pickup', 'russian_post', 'cdek', 'courier'])->default('pickup');
             $table->enum('payment_method', ['cash', 'sbp', 'card'])->default('on_site');
 
             // Статус заказа

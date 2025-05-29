@@ -13,16 +13,30 @@ use App\Models\KoronaNew;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\NewOrderTelegramNotification;
+use App\Services\cache\OrdersService;
 use App\Services\tg\OrderTelegramFormatter;
 use App\Services\tg\TelegramService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
 class CreateController extends Controller
 {
+
+    protected $orderService;
+
+    /**
+     * @param $orderService
+     */
+    public function __construct(OrdersService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
     public function __invoke(Request $request, OrderRequest $orderRequest)
     {
+
         $token = $request->cookie('user_token');
         $products = $orderRequest->input('products'); // Массив товаров из корзины
         $totalQuantity = $orderRequest->input('total_quantity');
@@ -57,6 +71,7 @@ class CreateController extends Controller
             ]);
         }
 
+        $this->orderService->clearCache();
 
         Notification::route('telegram', config('services.telegram.chat_id'))
             ->notify(new NewOrderTelegramNotification($order));

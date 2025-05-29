@@ -29,7 +29,7 @@ class Order extends Model
             'pickup' => 'Самовывоз',
             'cdek' => 'СДЭК',
             'yandex' => 'Яндекс',
-            'post' => 'Почта России',
+            'russian_post' => 'Почта России',
             'courier' => 'Курьер',
         ][$this->delivery_method] ?? $this->delivery_method;
     }
@@ -43,11 +43,32 @@ class Order extends Model
         ][$this->payment_method] ?? $this->payment_method;
     }
 
+    public function getStatusLabelAttribute(): string
+    {
+        return [
+            'waiting' => 'Ожидает обработки',
+            'processing' => 'В обработке',
+            'shipped' => 'Отправлен',
+            'delivered' => 'Доставлен',
+            'cancelled' => 'Отменён',
+        ][$this->status] ?? $this->status;
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
+
+    public function getUpdatedLabelAttribute()
+    {
+        return $this->updated_at->format('d.m.Y (H:i)');
     }
 
 }
