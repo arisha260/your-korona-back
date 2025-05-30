@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,17 +10,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderCreated extends Mailable
+class OrderStatusUpdated extends Mailable
 {
     use Queueable, SerializesModels;
 
 
     public $order;
-
-
-    public function __construct($order)
+    public string|null $customMessage;
+    public function __construct(Order $order, ?string $customMessage = null)
     {
         $this->order = $order;
+        $this->customMessage = $customMessage;
     }
 
 
@@ -30,7 +31,7 @@ class OrderCreated extends Mailable
 
     public function build()
     {
-        return $this->markdown('mail.orderMail')  // Указываем ваш шаблон
-        ->subject('Ваш заказ №' . $this->order->id . ' успешно оформлен!');
+        return $this->markdown('mail.order-status-updated')
+            ->subject("Статус заказа №{$this->order->id} обновлён");
     }
 }
