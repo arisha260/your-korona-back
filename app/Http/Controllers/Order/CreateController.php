@@ -3,21 +3,12 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\OrderRequest;
-use App\Http\Resources\KoronaNewResource;
-use App\Http\Resources\KoronaNewResourceCollection;
-use App\Http\Resources\ProductsResource;
+use App\Http\Requests\Order\OrderRequest;
 use App\Mail\OrderCreated;
-use App\Models\Favorite;
-use App\Models\KoronaNew;
 use App\Models\Order;
-use App\Models\Product;
 use App\Notifications\NewOrderTelegramNotification;
 use App\Services\cache\OrdersService;
-use App\Services\tg\OrderTelegramFormatter;
-use App\Services\tg\TelegramService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 

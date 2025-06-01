@@ -35,7 +35,8 @@ Route::middleware(['web'])->group(function () {
         Route::group(['namespace' => 'App\Http\Controllers\Order\admin', 'prefix' => 'orders'], function() {
             Route::get('/', \App\Http\Controllers\Order\admin\GetOrderController::class);
             Route::get('/order/{id}', \App\Http\Controllers\Order\admin\ShowOrderController::class);
-            Route::post('/order/update/{id}', \App\Http\Controllers\Order\admin\UpdateStatusOrderController::class);
+            Route::post('/order/status-update/{id}', \App\Http\Controllers\Order\admin\UpdateStatusOrderController::class);
+            Route::patch('/order/update/{id}', \App\Http\Controllers\Order\admin\UpdateOrderController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Users\Admin', 'prefix' => 'users'], function () {
