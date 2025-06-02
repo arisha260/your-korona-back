@@ -25,7 +25,8 @@ class Product extends Model
         'materials',
         'external_links',
         'quantity',
-        'views'
+        'views',
+        'is_archived'
     ];
 
     protected $casts = [
@@ -77,6 +78,11 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('is_archived', false);
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
     }
 
     public function getMainPhotoAttribute(): ?string
