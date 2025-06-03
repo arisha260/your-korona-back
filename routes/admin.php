@@ -36,6 +36,11 @@ Route::middleware(['web'])->group(function () {
             Route::get('/', \App\Http\Controllers\Products\admin\AdminIndexController::class);
         });
 
+        Route::group(['namespace' => 'App\Http\Controllers\Materials', 'prefix' => 'materials'], function() {
+            Route::get('/', \App\Http\Controllers\Materials\GetMaterialsAllController::class);
+            Route::post('/create', \App\Http\Controllers\Materials\AddNewMaterialController::class);
+        });
+
         Route::group(['namespace' => 'App\Http\Controllers\Order\admin', 'prefix' => 'orders'], function() {
             Route::get('/', \App\Http\Controllers\Order\admin\GetOrderController::class);
             Route::get('/order/{id}', \App\Http\Controllers\Order\admin\ShowOrderController::class);

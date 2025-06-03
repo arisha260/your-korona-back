@@ -11,11 +11,6 @@ use Illuminate\Support\Str;
  */
 class ProductFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $photos = [
@@ -34,23 +29,9 @@ class ProductFactory extends Factory
             'category_id' => rand(1, 7),
             'actual_price' => rand(1000, 9000),
             'old_price' => rand(1000, 11000),
-            'materials' => [
-                $this->faker->word(),
-                $this->faker->word(),
-                $this->faker->word(),
-                $this->faker->word(),
-                $this->faker->word(),
-            ],
             'equipment' => [
-                'included' => [
-                    $this->faker->word(),
-                    $this->faker->word(),
-                ],
-                'excluded' => [
-                    $this->faker->word(),
-                    $this->faker->word(),
-
-                ],
+                'included' => fake()->words(2),
+                'excluded' => fake()->boolean() ? fake()->words(2) : [],
             ],
             'external_links' => [
                 'whatsapp' => 'https://whatsapp.com/',

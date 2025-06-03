@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\KoronaNew;
+use App\Models\Material;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -14,6 +15,7 @@ use App\Observers\UserObserver;
 use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\KoronaNewsPolicy;
+use App\Policies\MaterialsPolicy;
 use App\Policies\OrderPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(KoronaNew::class, KoronaNewsPolicy::class);
         Gate::policy(Order::class, OrderPolicy::class);
+        Gate::policy(Material::class, MaterialsPolicy::class);
 
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);

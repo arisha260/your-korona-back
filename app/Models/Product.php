@@ -22,7 +22,6 @@ class Product extends Model
         'actual_price',
         'old_price',
         'equipment',
-        'materials',
         'external_links',
         'quantity',
         'views',
@@ -32,7 +31,6 @@ class Product extends Model
     protected $casts = [
         'photos' => 'array',
         'equipment' => 'array',
-        'materials' => 'array',
         'external_links' => 'array',
         'isNew' => 'boolean',
         'availability' => 'boolean',
@@ -89,5 +87,24 @@ class Product extends Model
     {
         return $this->photos[0] ?? null;
     }
+
+    public function setExternalLinksAttribute($value)
+    {
+        $this->attributes['external_links'] = json_encode([
+            'whatsapp' => $value['whatsapp'] ?? null,
+            'vk' => $value['vk'] ?? null,
+            'telegram' => $value['telegram'] ?? null,
+        ]);
+    }
+
+    public function setEquipmentAttribute($value)
+    {
+        $this->attributes['equipment'] = json_encode([
+            'included' => $value['included'] ?? [],
+            'excluded' => $value['excluded'] ?? [],
+        ]);
+    }
+
+
 
 }

@@ -19,7 +19,7 @@ class ProductsResource extends JsonResource
             'actual_price' => $this->actual_price,
             'old_price' => $this->old_price,
             'equipment' => $this->equipment,
-            'materials' => $this->materials,
+            'MaterialsPolicy' => $this->materials->pluck('name'),
             'external_links' => $this->external_links,
             'quantity' => $this->quantity,
             'views' => $this->views,
