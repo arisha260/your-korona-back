@@ -34,6 +34,7 @@ Route::middleware(['web'])->group(function () {
 
         Route::group(['namespace' => 'App\Http\Controllers\Products\admin', 'prefix' => 'products'], function() {
             Route::get('/', \App\Http\Controllers\Products\admin\AdminIndexController::class);
+            Route::post('/create', \App\Http\Controllers\Products\admin\AdminCreateController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Materials', 'prefix' => 'materials'], function() {

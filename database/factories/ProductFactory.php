@@ -29,12 +29,8 @@ class ProductFactory extends Factory
             'category_id' => rand(1, 7),
             'actual_price' => rand(1000, 9000),
             'old_price' => rand(1000, 11000),
-            'equipment' => [
-                'included' => fake()->words(2),
-                'excluded' => fake()->boolean() ? fake()->words(2) : [],
-            ],
+            'equipment' => fake()->words(2),
             'external_links' => [
-                'whatsapp' => 'https://whatsapp.com/',
                 'vk' => 'https://vk.com/',
                 'telegram' => 'https://telegram.org/',
             ],

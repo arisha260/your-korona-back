@@ -91,20 +91,26 @@ class Product extends Model
     public function setExternalLinksAttribute($value)
     {
         $this->attributes['external_links'] = json_encode([
-            'whatsapp' => $value['whatsapp'] ?? null,
-            'vk' => $value['vk'] ?? null,
-            'telegram' => $value['telegram'] ?? null,
+            'vk' => $value['vk'] ?? 'https://vk.com/aryosha',
+            'telegram' => $value['telegram'] ?? 'https://t.me/aryossha',
         ]);
     }
 
-    public function setEquipmentAttribute($value)
+    protected static function booted()
     {
-        $this->attributes['equipment'] = json_encode([
-            'included' => $value['included'] ?? [],
-            'excluded' => $value['excluded'] ?? [],
-        ]);
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $baseSlug = Str::slug($product->title);
+                $slug = $baseSlug;
+                $i = 1;
+
+                while (Product::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $i++;
+                }
+
+                $product->slug = $slug;
+            }
+        });
     }
-
-
 
 }
