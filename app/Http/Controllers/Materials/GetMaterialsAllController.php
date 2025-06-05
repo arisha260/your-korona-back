@@ -27,21 +27,17 @@ class GetMaterialsAllController extends Controller
         $page = (int) $request->input('page', 1);
         $loadAll = $request->boolean('loadAll', false);
 
-        $perPage = $loadAll ? 1000 : 10;
+        $perPage = $loadAll ? 1000 : 30;
 
         $materialsQuery = Material::latest();
 
-        $total = $materialsQuery->count();
-
-        $materials = $materialsQuery
-            ->skip(($page - 1) * $perPage)
-            ->take($perPage)
-            ->get();
+        // Для оптимизации можно использовать fastPaginate
+        $materials = $materialsQuery->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
-            'data' => MaterialsResource::collection($materials),
-            'total' => $total,
-            'hasMore' => !$loadAll && ($page * $perPage) < $total,
+            'data' => MaterialsResource::collection($materials->items()),
+            'total' => $materials->total(),
+            'hasMore' => $materials->hasMorePages(),
         ]);
     }
 

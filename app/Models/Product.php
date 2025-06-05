@@ -113,4 +113,14 @@ class Product extends Model
         });
     }
 
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
+
+    public function getUpdatedLabelAttribute()
+    {
+        return $this->updated_at->format('d.m.Y (H:i)');
+    }
+
 }

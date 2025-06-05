@@ -2,12 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Resources\ProductsResource;
-use App\Models\Category;
 use App\Models\Favorite;
-use App\Models\KoronaNew;
-use App\Models\KoronaReview;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

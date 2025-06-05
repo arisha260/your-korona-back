@@ -32,9 +32,11 @@ Route::middleware(['web'])->group(function () {
             Route::delete('/delete/{id}', \App\Http\Controllers\News\Admin\AdminDeleteNewController::class);
         });
 
-        Route::group(['namespace' => 'App\Http\Controllers\Products\admin', 'prefix' => 'products'], function() {
+        Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'products'], function() {
             Route::get('/', \App\Http\Controllers\Products\admin\AdminIndexController::class);
             Route::post('/create', \App\Http\Controllers\Products\admin\AdminCreateController::class);
+            Route::get('/product/{slug}', \App\Http\Controllers\Products\ShowController::class);
+            Route::patch('/move-to-archive/{slug}', \App\Http\Controllers\Products\admin\AdminMoveToArchiveController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Materials', 'prefix' => 'materials'], function() {

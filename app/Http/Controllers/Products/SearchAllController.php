@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Products\ProductsResource;
 use App\Models\Product;
-use App\Http\Resources\ProductsResource;
 use Illuminate\Http\Request;
 
 class SearchAllController extends Controller

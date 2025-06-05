@@ -17,6 +17,7 @@ use App\Policies\CategoryPolicy;
 use App\Policies\KoronaNewsPolicy;
 use App\Policies\MaterialsPolicy;
 use App\Policies\OrderPolicy;
+use App\Policies\ProductPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(KoronaNew::class, KoronaNewsPolicy::class);
         Gate::policy(Order::class, OrderPolicy::class);
         Gate::policy(Material::class, MaterialsPolicy::class);
+        Gate::policy(Product::class, ProductPolicy::class);
 
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
