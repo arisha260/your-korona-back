@@ -16,6 +16,7 @@ class Product extends Model
     protected $fillable = [
         'title',
         'slug',
+        'storage_folder',
         'description',
         'preview',
         'photos',

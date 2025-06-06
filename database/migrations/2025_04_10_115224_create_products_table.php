@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('storage_folder')->nullable()->after('slug')->unique();
             $table->text('description');
             $table->string('preview');
             $table->json('photos')->nullable();
