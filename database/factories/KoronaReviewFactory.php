@@ -20,9 +20,6 @@ class KoronaReviewFactory extends Factory
     {
         $product = Product::inRandomOrder()->first() ?? Product::factory()->create();
 
-        $photos = $product->photos;
-        $firstImage = $photos[0] ?? 'images/reviews/default.jpg';
-
         return [
             'product_id' => $product->id,
             'description' => $this->faker->paragraph(3),

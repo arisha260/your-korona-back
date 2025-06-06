@@ -9,12 +9,8 @@ class ReviewsService
 {
     public function getReviews($limit = 20)
     {
-
-//        return KoronaReview::orderByDesc('created_at')
-//            ->orderByDesc('id')
-//            ->paginate($limit);
         return KoronaReview::with(['product' => function ($q) {
-            $q->select('id', 'title', 'slug', 'photos');
+            $q->select('id', 'title', 'slug', 'preview');
         }])
             ->orderByDesc('created_at')
             ->orderByDesc('id')

@@ -20,7 +20,7 @@ class KoronaReviewResource extends JsonResource
             'product' => [
                 'title' => $this->product->title,
                 'slug' => $this->product->slug,
-                'img' => $this->product->photos[0] ?? null,
+                'preview' => $this->product->preview,
             ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

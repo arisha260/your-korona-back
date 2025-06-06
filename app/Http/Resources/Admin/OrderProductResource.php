@@ -14,7 +14,7 @@ class OrderProductResource extends JsonResource
             'title' => $this->title,
             'actual_price' => $this->actual_price,
             'quantity' => $this->pivot->quantity,
-            'photo' => $this->main_photo,
+            'preview' => $this->preview,
         ];
     }
 }

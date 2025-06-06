@@ -12,7 +12,7 @@ class KoronaReview extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class)->select('id', 'title', 'slug', 'photos');
+        return $this->belongsTo(Product::class)->select('id', 'title', 'slug', 'preview');
     }
 
 }

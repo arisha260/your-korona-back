@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Products\ProductsResource;
+use App\Http\Resources\Products\ProductResource;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +20,7 @@ class LastNewController extends Controller
             $products = $service->getNewProducts($page, $limit);
 
             return response()->json([
-                'data' => ProductsResource::collection($products),
+                'data' => ProductResource::collection($products),
                 'nextPage' => $products->hasMorePages() ? $page + 1 : null,
                 'total' => $products->total()
             ]);

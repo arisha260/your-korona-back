@@ -49,7 +49,7 @@ class ProductService
                     'slug',
                     'actual_price',
                     'old_price',
-                    'photos',
+                    'preview',
                     'views',
                     'created_at',
                     'category_id'

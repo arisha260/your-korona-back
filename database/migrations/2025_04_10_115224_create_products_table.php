@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
+            $table->string('preview');
             $table->json('photos')->nullable();
             $table->boolean('is_archived')->default(false);
             $table->foreignId('category_id')->nullable()->constrained(

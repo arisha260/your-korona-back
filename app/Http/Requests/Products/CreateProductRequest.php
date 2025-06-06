@@ -17,6 +17,9 @@ class CreateProductRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'category_slug' => 'required|exists:categories,slug',
+
+            'preview' => 'required|image|mimetypes:image/jpeg,image/png,image/gif|max:2048',
+
             'photos' => 'required|array|min:3|max:10',
             'photos.*' => [
                 'image',

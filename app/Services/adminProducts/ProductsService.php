@@ -27,7 +27,7 @@ class ProductsService
             $query = Product::query()
                 ->select([
                     'id', 'title', 'slug', 'actual_price', 'old_price',
-                    'photos', 'category_id', 'is_archived', 'created_at'
+                    'preview', 'category_id', 'is_archived', 'created_at'
                 ]);
 
             if ($categorySlug) {

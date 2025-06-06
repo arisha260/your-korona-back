@@ -17,6 +17,7 @@ class Product extends Model
         'title',
         'slug',
         'description',
+        'preview',
         'photos',
         'category_id',
         'actual_price',

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Products\ProductsResource;
+use App\Http\Resources\Products\ProductResource;
 use App\Models\Product;
 
 class ShowController extends Controller
@@ -11,7 +11,7 @@ class ShowController extends Controller
     public function __invoke($slug){
 
         $product = Product::where('slug', $slug)->firstOrFail();
-        return new ProductsResource($product);
+        return new ProductResource($product);
 
     }
 }

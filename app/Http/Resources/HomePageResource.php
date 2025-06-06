@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Products\ProductsResource;
+use App\Http\Resources\Products\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,11 +16,11 @@ class HomePageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'populars' => ProductsResource::collection($this['populars']),
+            'populars' => ProductResource::collection($this['populars']),
             'lastNews' => KoronaNewResourceLatest::collection($this['lastNews']),
             'latestReviews' => KoronaReviewResourceLatest::collection($this['latestReviews']),
             'newProducts' => [
-                'data' => ProductsResource::collection($this['newProducts']['data']),
+                'data' => ProductResource::collection($this['newProducts']['data']),
                 'nextPage' => $this['newProducts']['nextPage'],
                 'total' => $this['newProducts']['total'],
             ],

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Products\ProductsResource;
+use App\Http\Resources\Products\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +18,7 @@ class UserResource extends JsonResource
         return [
             'cart' => $this['cart'],
             'favorites' => [
-                'data' => ProductsResource::collection($this['favorites']['data']),
+                'data' => ProductResource::collection($this['favorites']['data']),
                 'total' => $this['favorites']['total']
             ],
 

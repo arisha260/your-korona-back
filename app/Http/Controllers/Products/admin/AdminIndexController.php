@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Products\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Admin\AdminProductsResource;
+use App\Http\Resources\Products\AdminProductsResource;
 use App\Services\adminProducts\ProductsService;
 use Illuminate\Http\Request;
 
