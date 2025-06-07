@@ -76,6 +76,11 @@ class AdminUpdateController extends Controller
                 $uploadedPaths[] = $storedPath;
             }
 
+            $allPhotos = [...$existingPhotos, ...$newPhotos];
+            if (count($allPhotos) < 3) {
+                throw new \Exception('Необходимо минимум 3 фотографии');
+            }
+
             // Обновляем продукт
             $product->update([
                 'title' => $data['title'] ?? $product->title,

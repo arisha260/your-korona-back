@@ -38,6 +38,7 @@ Route::middleware(['web'])->group(function () {
             Route::get('/product/{slug}', \App\Http\Controllers\Products\ShowController::class);
             Route::patch('/move-to-archive/{slug}', \App\Http\Controllers\Products\admin\AdminMoveToArchiveController::class);
             Route::post('/update/{slug}', \App\Http\Controllers\Products\admin\AdminUpdateController::class);
+            Route::delete('/delete/{slug}', \App\Http\Controllers\Products\admin\AdminDeleteController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Materials', 'prefix' => 'materials'], function() {

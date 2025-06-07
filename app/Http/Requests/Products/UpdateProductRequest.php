@@ -19,7 +19,7 @@ class UpdateProductRequest extends FormRequest
             'preview' => 'sometimes|file|image|max:2048',
             'photos' => 'sometimes|array',
             'photos.*' => 'file|image|max:2048',
-            'existing_photos' => 'sometimes|array|min:3',
+            'existing_photos' => 'sometimes|array',
             'existing_photos.*' => 'string',
             'category_slug' => 'sometimes|string|exists:categories,slug',
             'actual_price' => 'sometimes|numeric|min:1',
