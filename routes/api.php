@@ -38,6 +38,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'review
     Route::get('/', \App\Http\Controllers\Reviews\IndexController::class);
     Route::get('/latest', \App\Http\Controllers\Reviews\LatestController::class);
     Route::get('/show/{slug}', \App\Http\Controllers\Reviews\ShowController::class);
+    Route::post('/send-on-confirmation', \App\Http\Controllers\Reviews\SendOnConfirmationController::class);
+
 });
 
 
@@ -48,6 +50,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/show/{slug}', \App\Http\Controllers\Products\ShowController::class);
     Route::get('/news', \App\Http\Controllers\Products\LastNewController::class);
     Route::get('/{slug}', \App\Http\Controllers\Products\ByCategory::class);
+    Route::get('/product-for-reviews/{slug}', \App\Http\Controllers\Products\ForReviewController::class);
 });
 
 
