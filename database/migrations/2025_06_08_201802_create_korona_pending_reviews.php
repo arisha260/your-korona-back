@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->string('author');
+            $table->string('author_email');
             $table->string('slug');
             $table->text('description');
             $table->unsignedTinyInteger('mark');

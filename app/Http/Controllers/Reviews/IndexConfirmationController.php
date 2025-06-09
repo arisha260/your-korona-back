@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\reviews;
+namespace App\Http\Controllers\Reviews;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Reviews\KoronaReviewResource;
-use App\Services\reviews\ReviewsService;
+use App\Services\reviews\ReviewsConfirmService;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class IndexConfirmationController extends Controller
 {
-    public function __invoke(Request $request, ReviewsService $reviewsService){
+    public function __invoke(Request $request, ReviewsConfirmService $reviewsService){
 
         $limit = 20;
 

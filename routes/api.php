@@ -39,7 +39,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'review
     Route::get('/latest', \App\Http\Controllers\Reviews\LatestController::class);
     Route::get('/show/{slug}', \App\Http\Controllers\Reviews\ShowController::class);
     Route::post('/send-on-confirmation', \App\Http\Controllers\Reviews\SendOnConfirmationController::class);
-
 });
 
 

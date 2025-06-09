@@ -7,10 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class KoronaPendingReview extends Model
 {
-    protected $fillable = ['description', 'slug', 'author', 'mark', 'img', 'product_id'];
+    protected $fillable = ['description', 'slug', 'author', 'author_email', 'mark', 'img', 'product_id'];
 
     public function product()
     {
         return $this->belongsTo(Product::class)->select('id', 'title', 'slug', 'preview');
+    }
+
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
+
+    public function getUpdatedLabelAttribute()
+    {
+        return $this->updated_at->format('d.m.Y (H:i)');
     }
 }

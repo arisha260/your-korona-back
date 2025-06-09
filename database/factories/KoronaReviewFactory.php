@@ -25,6 +25,7 @@ class KoronaReviewFactory extends Factory
             'description' => $this->faker->paragraph(3),
             'slug' => Str::slug($this->faker->words(3, true)),
             'author' => $this->faker->name(),
+            'author_email' => $this->faker->email(),
             'mark' => 5,
             'likes' => rand(0, 200),
         ];

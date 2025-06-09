@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\KoronaNew;
+use App\Models\KoronaReview;
 use App\Models\Material;
 use App\Models\Order;
 use App\Models\Product;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Observers\CategoryObserver;
 use App\Observers\NewObserver;
 use App\Observers\ProductObserver;
+use App\Observers\ReviewsObserver;
 use App\Observers\UserObserver;
 use App\Policies\AdminPolicy;
 use App\Policies\CategoryPolicy;
@@ -54,5 +56,6 @@ class AppServiceProvider extends ServiceProvider
         Product::observe(ProductObserver::class);
         User::observe(UserObserver::class);
         KoronaNew::observe(NewObserver::class);
+        KoronaReview::observe(ReviewsObserver::class);
     }
 }

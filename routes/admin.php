@@ -46,6 +46,12 @@ Route::middleware(['web'])->group(function () {
             Route::post('/create', \App\Http\Controllers\Materials\AddNewMaterialController::class);
         });
 
+        Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'reviews'], function() {
+            Route::get('/confirmation-of-reviews', \App\Http\Controllers\Reviews\IndexConfirmationController::class);
+            Route::get('/confirmation-of-review/{slug}', \App\Http\Controllers\Reviews\ShowConfirmationController::class);
+            Route::post('/confirm', \App\Http\Controllers\Reviews\ConfirmController::class);
+        });
+
         Route::group(['namespace' => 'App\Http\Controllers\Order\admin', 'prefix' => 'orders'], function() {
             Route::get('/', \App\Http\Controllers\Order\admin\GetOrderController::class);
             Route::get('/order/{id}', \App\Http\Controllers\Order\admin\ShowOrderController::class);

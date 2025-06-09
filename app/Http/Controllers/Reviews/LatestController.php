@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Reviews;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Reviews\KoronaReviewResource;
 use App\Models\KoronaReview;
-use App\Http\Resources\KoronaReviewResource;
-use Illuminate\Http\Request;
 
 class LatestController extends Controller
 {

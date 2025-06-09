@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Reviews;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KoronaReviewResource extends JsonResource
+class KoronaReviewCardResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
