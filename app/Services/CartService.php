@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Products\ProductCardResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\KoronaReview;
@@ -74,7 +75,7 @@ class CartService
             'items' => $cart->items->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'product' => $item->product,
+                    'product' => new ProductCardResource($item->product),
                     'quantity' => $item->quantity,
                     'price_total' => $item->product->actual_price * $item->quantity,
                 ];

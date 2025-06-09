@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Products\ProductsResource;
+use App\Http\Resources\Products\ProductCardResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,7 @@ class SearchAllController extends Controller
             ->get();
 
         return response()->json([
-            'data' => ProductsResource::collection($products),
+            'data' => ProductCardResource::collection($products),
             'total' => $total,
             'hasMore' => !$loadAll && ($page * $perPage) < $total,
         ]);

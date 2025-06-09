@@ -17,7 +17,6 @@ class SendReviewOnConfirmationRequest extends FormRequest
             'product_id' => 'required|exists:products,id',
             'author' => 'required|string|max:255',
             'email' => 'required|email',
-            'slug' => 'required|string',
             'description' => 'required|string',
             'mark' => 'required|integer|between:1,5',
         ];

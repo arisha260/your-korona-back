@@ -49,7 +49,10 @@ Route::middleware(['web'])->group(function () {
         Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'reviews'], function() {
             Route::get('/confirmation-of-reviews', \App\Http\Controllers\Reviews\IndexConfirmationController::class);
             Route::get('/confirmation-of-review/{slug}', \App\Http\Controllers\Reviews\ShowConfirmationController::class);
+            Route::get('/review/{slug}', \App\Http\Controllers\Reviews\ShowAdminController::class);
             Route::post('/confirm', \App\Http\Controllers\Reviews\ConfirmController::class);
+            Route::get('/', \App\Http\Controllers\Reviews\IndexController::class);
+            Route::post('/delete/{slug}', \App\Http\Controllers\Reviews\DeleteController::class);
         });
 
         Route::group(['namespace' => 'App\Http\Controllers\Order\admin', 'prefix' => 'orders'], function() {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\News;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KoronaNewResource extends JsonResource
+class KoronaNewCardResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -13,11 +13,9 @@ class KoronaNewResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'description' => $this->description,
+            'description' => $this->short_description,
             'img' => $this->img,
-            'created_at' => $this->created_at,
-            'is_updated' => $this->created_at,
-            'updated_label' => $this->updated_label,
+            'created_at' => $this->created_relative,
         ];
     }
 }

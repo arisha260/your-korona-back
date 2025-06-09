@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\Products;
 
+use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AdminProductsResource extends JsonResource
+class ProductCardResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -19,7 +20,6 @@ class AdminProductsResource extends JsonResource
             'isNew' => $this->is_new,
             'is_archived' => $this->is_archived,
             'created_relative' => $this->created_relative,
-            'category_id' => $this->category_id,
         ];
     }
 }

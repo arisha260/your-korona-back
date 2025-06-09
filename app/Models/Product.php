@@ -125,4 +125,10 @@ class Product extends Model
         return $this->updated_at->format('d.m.Y (H:i)');
     }
 
+    public function getCreatedRelativeAttribute()
+    {
+        return Carbon::parse($this->created_at)
+            ->locale('ru')
+            ->diffForHumans();
+    }
 }

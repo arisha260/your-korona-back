@@ -11,8 +11,7 @@ class KoronaReviewCardResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product_id' => $this->product_id,
-            'description' => $this->description,
+            'description' => $this->short_description,
             'slug' => $this->slug,
             'author' => $this->author,
             'mark' => $this->mark,
@@ -22,8 +21,7 @@ class KoronaReviewCardResource extends JsonResource
                 'slug' => $this->product->slug,
                 'preview' => $this->product->preview,
             ],
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_relative,
         ];
     }
 }

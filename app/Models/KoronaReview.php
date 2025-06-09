@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,19 @@ class KoronaReview extends Model
     public function getUpdatedLabelAttribute()
     {
         return $this->updated_at->format('d.m.Y (H:i)');
+    }
+
+    public function getShortDescriptionAttribute()
+    {
+        return strlen($this->description) > 100
+            ? mb_substr($this->description, 0, 100) . '...'
+            : $this->description;
+    }
+
+    public function getCreatedRelativeAttribute()
+    {
+        return Carbon::parse($this->created_at)
+            ->locale('ru')
+            ->diffForHumans();
     }
 }

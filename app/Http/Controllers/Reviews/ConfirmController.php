@@ -3,16 +3,13 @@
 namespace App\Http\Controllers\Reviews;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Reviews\ReviewFromConfirmationResource;
-use App\Mail\OrderStatusUpdated;
-use App\Mail\ReviewApproveMail;
-use App\Mail\ReviewRejectedMail;
+use App\Mail\Reviews\ReviewApproveMail;
+use App\Mail\Reviews\ReviewRejectedMail;
 use App\Models\KoronaPendingReview;
 use App\Models\KoronaReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class ConfirmController extends Controller
 {

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\News;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class KoronaNewResourceCollection extends ResourceCollection
 {
     public function toArray($request)
     {
-        return KoronaNewResource::collection($this->collection);
+        return KoronaNewMiniCardResource::collection($this->collection);
     }
 
     public function with($request)

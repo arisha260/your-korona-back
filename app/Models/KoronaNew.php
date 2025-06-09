@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -46,6 +47,10 @@ class KoronaNew extends Model
         });
     }
 
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
 
     public function getIsUpdatedAttribute()
     {
@@ -60,5 +65,20 @@ class KoronaNew extends Model
         }
 
         return null;
+    }
+
+
+    public function getShortDescriptionAttribute()
+    {
+        return strlen($this->description) > 100
+            ? mb_substr($this->description, 0, 100) . '...'
+            : $this->description;
+    }
+
+    public function getCreatedRelativeAttribute()
+    {
+        return Carbon::parse($this->created_at)
+            ->locale('ru')
+            ->diffForHumans();
     }
 }

@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Mail;
+namespace App\Mail\Reviews;
 
 use App\Models\KoronaPendingReview;
-use App\Models\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class ReviewRejectedMail extends Mailable

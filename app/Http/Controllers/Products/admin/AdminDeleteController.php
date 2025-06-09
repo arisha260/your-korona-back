@@ -3,15 +3,9 @@
 namespace App\Http\Controllers\Products\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\KoronaNewsRequest;
-use App\Http\Resources\KoronaNewResource;
-use App\Http\Resources\KoronaNewResourceCollection;
-use App\Http\Resources\KoronaNewResourceLatest;
-use App\Models\KoronaNew;
 use App\Models\KoronaReview;
 use App\Models\Product;
 use App\Services\cache\DeleteProductService;
-use App\Services\cache\NewsService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;

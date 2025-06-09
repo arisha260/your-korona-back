@@ -22,8 +22,7 @@ class KoronaReviewResource extends JsonResource
                 'slug' => $this->product->slug,
                 'preview' => $this->product->preview,
             ],
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_label,
         ];
     }
 }
