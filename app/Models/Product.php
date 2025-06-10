@@ -131,4 +131,15 @@ class Product extends Model
             ->locale('ru')
             ->diffForHumans();
     }
+
+
+    public function getOldPriceAttribute($value)
+    {
+        // Возвращаем старую цену, только если она больше актуальной
+        if ($value > $this->actual_price) {
+            return $value;
+        }
+
+        return null;
+    }
 }

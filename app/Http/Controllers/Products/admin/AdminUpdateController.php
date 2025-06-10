@@ -89,8 +89,8 @@ class AdminUpdateController extends Controller
                 'photos' => [...$existingPhotos, ...$newPhotos],
                 'category_id' => $categoryId,
                 'actual_price' => $data['actual_price'] ?? $product->actual_price,
-                'old_price' => isset($data['actual_price']) && $data['actual_price'] != $product->actual_price
-                    ? $product->actual_price
+                'old_price' => isset($data['actual_price'])
+                    ? ($data['actual_price'] < $product->actual_price ? $product->actual_price : null)
                     : $product->old_price,
                 'equipment' => array_key_exists('equipment', $data) ? explode(',', $data['equipment']) : $product->equipment,
                 'external_links' => $data['external_links'] ?? $product->external_links,

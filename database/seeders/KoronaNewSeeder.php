@@ -13,6 +13,6 @@ class KoronaNewSeeder extends Seeder
      */
     public function run(): void
     {
-        KoronaNew::factory()->count(20)->create();
+        KoronaNew::factory()->count(60)->create();
     }
 }

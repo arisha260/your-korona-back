@@ -43,6 +43,9 @@ class ProductFactory extends Factory
 
         $preview = $this->faker->randomElement($previews);
 
+        $actualPrice = rand(1000, 9000);
+        $oldPrice = rand($actualPrice, max($actualPrice + 1000, 11000));
+
         return [
             'title' => $this->faker->words(3, true),
             'slug' => Str::slug($this->faker->words(3, true)),
@@ -50,8 +53,8 @@ class ProductFactory extends Factory
             'preview' => $preview,
             'photos' => $photos,
             'category_id' => rand(1, 7),
-            'actual_price' => rand(1000, 9000),
-            'old_price' => rand(1000, 11000),
+            'actual_price' => $actualPrice,
+            'old_price' => $oldPrice,
             'equipment' => fake()->words(2),
             'external_links' => [
                 'vk' => 'https://vk.com/',
