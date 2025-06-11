@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TGBot\TelegramBotController;
+use App\Http\Controllers\Trackers\ProductViewController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/product-for-reviews/{slug}', \App\Http\Controllers\Products\ForReviewController::class);
 });
 
+Route::post('/products/{id}/track-view', [ProductViewController::class, 'track'])
+    ->middleware('throttle:60,1');
 
 Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'], function() {
     Route::post('/create', \App\Http\Controllers\Order\CreateController::class);
@@ -67,11 +70,11 @@ Route::get('/test-mail', function () {
     return 'Письмо отправлено!';
 });
 
-
 Route::get('/redis-test', function () {
     Cache::put('test_key', 'Привет, Redis!', 600);
     return Cache::get('test_key'); // должен вернуть "Привет, Redis!"
 });
+
 
 Route::get('/admin/test', function () {
     return response()->json(auth()->user());

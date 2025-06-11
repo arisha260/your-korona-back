@@ -11,6 +11,7 @@ class ShowController extends Controller
     public function __invoke($slug){
 
         $product = Product::where('slug', $slug)->firstOrFail();
+
         return new ProductResource($product);
 
     }
