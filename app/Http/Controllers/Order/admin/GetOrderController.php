@@ -28,7 +28,7 @@ class GetOrderController extends Controller
         $orders = $this->orderService->getOrdersByStatus(
             perPage: $request->input('per_page', 20),
             page: $request->input('page', 1),
-            sort: $request->input('sort', 'waiting'),
+            sort: $request->input('sort', 'awaiting_payment'),
             search: $request->input('search')
         );
 

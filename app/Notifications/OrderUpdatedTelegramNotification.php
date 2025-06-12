@@ -37,6 +37,8 @@ class OrderUpdatedTelegramNotification extends Notification
         $message .= "Город: {$order->client_city}\n";
         $message .= "Адрес: {$order->client_address}\n";
         $message .= "Индекс: {$order->client_index}\n\n";
+        $message .= "Предпочтительный способ связи: {$order->client_social_type}\n";
+        $message .= "Ссылка: {$order->client_social_url}\n\n";
 
         $message .= "📍 Статус: <b>{$order->status_label}</b>";
 

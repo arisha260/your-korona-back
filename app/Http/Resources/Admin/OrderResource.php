@@ -17,6 +17,8 @@ class OrderResource extends JsonResource
             'client_city' => $this->client_city,
             'client_address' => $this->client_address,
             'client_index' => $this->client_index,
+            'client_social_url' => $this->client_social_url,
+            'client_social_type' => $this->client_social_type,
             'client_comment' => $this->client_comment,
             'delivery_method' => $this->delivery_method_label,
             'payment_method' => $this->payment_method_label,

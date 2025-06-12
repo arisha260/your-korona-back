@@ -37,7 +37,11 @@
                         Почта: {{ $order->client_email }} <br>
                         Город: {{ $order->client_city }} <br>
                         Адрес: {{ $order->client_address }} <br>
-                        Индекс: {{ $order->client_index }}
+                        Индекс: {{ $order->client_index }} <br>
+                        @if ($order->client_social_type && $order->client_social_url)
+                            Указанный способ связи: {{ ucfirst($order->client_social_type) }} —
+                            <a href="{{ $order->client_social_url }}" style="color:#0000EE;">{{ $order->client_social_url }}</a>
+                        @endif
                     </td>
                 </tr>
                 <tr>

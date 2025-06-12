@@ -13,6 +13,8 @@ class Order extends Model
         'client_city',
         'client_address',
         'client_index',
+        'client_social_url',
+        'client_social_type',
         'client_comment',
         'client_token',
         'delivery_method',
@@ -37,8 +39,8 @@ class Order extends Model
     public function getPaymentMethodLabelAttribute(): string
     {
         return [
-            'sbp' => 'СБП',
-            'card' => 'Картой',
+            'manual' => 'Оплата после согласования с администратором',
+            'online' => 'Оплата онлайн на сайте',
             'cash' => 'Оплата при получении',
         ][$this->payment_method] ?? $this->payment_method;
     }
@@ -46,8 +48,9 @@ class Order extends Model
     public function getStatusLabelAttribute(): string
     {
         return [
-            'waiting' => 'Ожидает обработки',
+            'awaiting_payment' => 'Ожидает оплаты',
             'processing' => 'В обработке',
+            'ready_for_pickup' => 'Готов для самовывоза',
             'shipped' => 'Отправлен',
             'delivered' => 'Доставлен',
             'cancelled' => 'Отменён',

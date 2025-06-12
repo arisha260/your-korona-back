@@ -34,6 +34,22 @@ class CreateController extends Controller
         $subtotalPrice = $orderRequest->input('subtotal');
         $totalPrice = $orderRequest->input('total_price');
 
+        $paymentMethod = $orderRequest->input('payment_method');
+        $deliveryMethod = $orderRequest->input('delivery_method');
+
+        if ($paymentMethod === 'online') {
+            return response()->json([
+                'redirect_to_payment' => true,
+                'message' => 'Переход к оплате'
+            ]);
+        }
+
+        $status = match (true) {
+            $paymentMethod === 'cash' && $deliveryMethod === 'pickup' => 'ready_for_pickup',
+            $paymentMethod === 'manual' => 'awaiting_payment',
+            default => 'awaiting_payment',
+        };
+
         // Создаём заказ
         $order = Order::create([
             'client_name' => $orderRequest->input('client_name'),
@@ -43,6 +59,8 @@ class CreateController extends Controller
             'client_address' => $orderRequest->input('client_address'),
             'client_index' => $orderRequest->input('client_index'),
             'client_comment' => $orderRequest->input('client_comment'),
+            'client_social_url' => $orderRequest->input('client_social_url'),
+            'client_social_type' => $orderRequest->input('client_social_type'),
             'client_token' => $token,
 
             'delivery_method' => $orderRequest->input('delivery_method'),
@@ -52,7 +70,7 @@ class CreateController extends Controller
             'subtotal_price' => $subtotalPrice,
             'total_price' => $totalPrice,
 
-            'status' => 'waiting',
+            'status' => $status,
         ]);
 
         // Привязываем товары к заказу

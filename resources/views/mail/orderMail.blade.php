@@ -15,9 +15,11 @@
                 </tr>
                 <tr>
                     <td style="font-size: 16px; font-weight: normal; color: #000; padding-bottom: 20px;">
-                        Спасибо за покупку, {{ $order->client_name }}!
+                        Спасибо за заказ, {{ $order->client_name }}!
                     </td>
                 </tr>
+
+                {{-- Детали заказа --}}
                 <tr>
                     <td style="font-size: 18px; font-weight: bold; color: #000; padding-top: 10px; padding-bottom: 5px;">
                         Детали заказа:
@@ -26,10 +28,27 @@
                 <tr>
                     <td style="font-size: 16px; color: #000;">
                         Дата: {{ $order->created_at->format('d.m.Y H:i') }}<br>
+                        Статус: {{ $order->status_label ?? ucfirst(str_replace('_', ' ', $order->status)) }}<br>
                         Доставка: {{ $order->delivery_method_label }}<br>
-                        Оплата: {{ $order->payment_method_label }}
+                        Оплата: {{ $order->payment_method_label }}<br>
+                        @if ($order->client_social_type && $order->client_social_url)
+                            Указанный способ связи: {{ ucfirst($order->client_social_type) }} —
+                            <a href="{{ $order->client_social_url }}" style="color:#0000EE;">{{ $order->client_social_url }}</a>
+                        @endif
+                        <br>
                     </td>
                 </tr>
+
+
+                @if ($order->payment_method === 'manual')
+                    <tr>
+                        <td style="font-size: 14px; color: #000;">
+                            * После оформления заказа по указанным вами данным для связи с вами свяжется наш администратор для оплаты доставки.<br>
+                        </td>
+                    </tr>
+                @endif
+
+                {{-- Состав заказа --}}
                 <tr>
                     <td style="font-size: 18px; font-weight: bold; color: #000; padding-top: 20px; padding-bottom: 5px;">
                         Состав заказа:
@@ -38,15 +57,19 @@
                 <tr>
                     <td style="font-size: 16px; color: #000;">
                         @foreach ($order->products as $product)
-                            {{ $product->title }} × {{ $product->pivot->quantity }} — {{ $product->actual_price }} ₽<br>
+                            • {{ $product->title }} × {{ $product->pivot->quantity }} — {{ $product->actual_price }} ₽<br>
                         @endforeach
                     </td>
                 </tr>
+
+                {{-- Итого --}}
                 <tr>
                     <td style="font-size: 16px; color: #000; padding-top: 10px;">
                         <strong>Итого: {{ $order->total_price }} ₽</strong>
                     </td>
                 </tr>
+
+                {{-- Подпись --}}
                 <tr>
                     <td style="font-size: 16px; color: #000; padding-top: 40px; text-align: center;">
                         С уважением,<br>

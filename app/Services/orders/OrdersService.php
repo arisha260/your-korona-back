@@ -16,7 +16,7 @@ class OrdersService
     (
         int $perPage = 20,
         int $page = 1,
-        string $sort = 'waiting',
+        string $sort = 'awaiting_payment',
         ?string $search = null
     ):  LengthAwarePaginator
     {
@@ -44,7 +44,7 @@ class OrdersService
 
     protected function applySorting(Builder $query, string $sort): void
     {
-        if (in_array($sort, ['waiting', 'processing', 'shipped', 'delivered', 'cancelled'])) {
+        if (in_array($sort, ['awaiting_payment', 'processing', 'ready_for_pickup', 'shipped', 'delivered', 'cancelled'])) {
             $query->where('status', $sort);
         }
 

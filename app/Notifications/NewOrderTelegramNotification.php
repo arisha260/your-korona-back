@@ -43,6 +43,8 @@ class NewOrderTelegramNotification extends Notification
         $message .= "👤 <b>Клиент:</b> {$order->client_name}\n";
         $message .= "📞 Телефон: {$order->client_tel}\n";
         $message .= "✉️ Почта: {$order->client_email}\n\n";
+        $message .= "✉️ Предпочтительный способ связи клиента: {$order->client_social_type}\n";
+        $message .= "✉️ Ссылка: {$order->client_social_url}\n\n";
 
         foreach ($order->products as $product) {
             $message .= "      - {$product->title} × {$product->pivot->quantity} — {$product->actual_price}₽\n";
