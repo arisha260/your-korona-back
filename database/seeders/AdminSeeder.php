@@ -16,8 +16,8 @@ class AdminSeeder extends Seeder
         // 1. Фиксированный админ
         $admin = User::create([
             'name' => 'Super Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
+            'email' => 'aryoshas@yandex.ru',
+            'password' => Hash::make('qzjRxj_-X-LkQ8Cs7rUq'),
             'role' => UserRole::SuperAdmin,
         ]);
 
