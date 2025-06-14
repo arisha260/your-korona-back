@@ -14,7 +14,7 @@ class productSeeder extends Seeder
      */
     public function run(): void
     {
-        $products = Product::factory()->count(200)->create();
+        $products = Product::factory()->count(70)->create();
 
         // прикрепляем материалы
         $products->each(function ($product) {

@@ -14,11 +14,12 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         $photos = [
-            'cover/products/product.png',
-            'cover/products/product1.png',
-            'cover/products/product2.png',
-            'cover/products/product3.png',
-            'cover/products/product4.png',
+            'cover/products/preview0.png',
+            'cover/products/preview1.png',
+            'cover/products/preview2.png',
+            'cover/products/preview3.png',
+            'cover/products/preview4.jpg',
+            'cover/products/preview5.jpg',
         ];
 
 
