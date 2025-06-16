@@ -7,9 +7,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => ['http://your-korona.ru'],
-//    'allowed_origins' => ['http://localhost:3000'],
 
-//    'allowed_origins_patterns' => [],
     'allowed_origins_patterns' => ['/^https?:\/\/your\-korona\.ru$/'],
 
     'allowed_headers' => ['*'],
