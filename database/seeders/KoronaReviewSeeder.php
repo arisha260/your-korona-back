@@ -13,6 +13,6 @@ class koronaReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        KoronaReview::factory()->count(50)->create();
+//        KoronaReview::factory()->count(50)->create();
     }
 }

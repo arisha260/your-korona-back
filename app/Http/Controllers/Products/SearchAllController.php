@@ -19,8 +19,9 @@ class SearchAllController extends Controller
         $perPage = $loadAll ? 1000 : 10;
 
         $productsQuery = Product::active()
+
             ->when($query, function ($q) use ($query) {
-                $q->where('title', 'like', "%{$query}%");
+                $q->where('title', 'ILIKE', '%' . trim($query) . '%');
             })
             ->latest();
 
@@ -37,6 +38,4 @@ class SearchAllController extends Controller
             'hasMore' => !$loadAll && ($page * $perPage) < $total,
         ]);
     }
-
-
 }

@@ -14,31 +14,31 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $names = [
-            "Венки",
-            "Короны",
-            "Ободки",
-            "Браслеты",
-            "Чокеры",
-            "Кокошники",
-            "Серьги"
-        ];
-
-        $slugs = [
-            "venki",
-            "korony",
-            "obodki",
-            "braslety",
-            "chokery",
-            "kokoshniki",
-            "sergi"
-        ];
-
-        foreach ($names as $index => $name) {
-            Category::create([
-                'name' => $name,
-                'slug' => $slugs[$index]
-            ]);
-        }
+//        $names = [
+//            "Венки",
+//            "Короны",
+//            "Ободки",
+//            "Браслеты",
+//            "Чокеры",
+//            "Кокошники",
+//            "Серьги"
+//        ];
+//
+//        $slugs = [
+//            "venki",
+//            "korony",
+//            "obodki",
+//            "braslety",
+//            "chokery",
+//            "kokoshniki",
+//            "sergi"
+//        ];
+//
+//        foreach ($names as $index => $name) {
+//            Category::create([
+//                'name' => $name,
+//                'slug' => $slugs[$index]
+//            ]);
+//        }
     }
 }

@@ -58,7 +58,7 @@ class ProductService
                     $query->select('id', 'name', 'slug');
                 }])
                 ->when($search, function (Builder $query, string $search) {
-                    $query->where('title', 'like', "%{$search}%");
+                    $query->where('title', 'ILIKE', '%' . trim($search) . '%');
                 });
 
             $this->applySorting($query, $sort);

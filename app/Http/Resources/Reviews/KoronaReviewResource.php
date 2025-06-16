@@ -16,7 +16,7 @@ class KoronaReviewResource extends JsonResource
             'slug' => $this->slug,
             'author' => $this->author,
             'mark' => $this->mark,
-            'likes' => $this->likes,
+//            'likes' => $this->likes,
             'product' => [
                 'title' => $this->product->title,
                 'slug' => $this->product->slug,

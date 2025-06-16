@@ -13,21 +13,22 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Фиксированный админ
-        $admin = User::create([
-            'name' => 'Super Admin',
-            'email' => 'aryoshas@yandex.ru',
-            'password' => Hash::make('qzjRxj_-X-LkQ8Cs7rUq'),
-            'role' => UserRole::SuperAdmin,
-        ]);
+        if (!User::where('email', 'aryoshas@yandex.ru')->exists()) {
+            User::create([
+                'name' => 'Super Admin',
+                'email' => 'aryoshas@yandex.ru',
+                'password' => Hash::make('qzjRxj_-X-LkQ8Cs7rUq'),
+                'role' => UserRole::SuperAdmin,
+            ]);
+        }
 
-        echo "Super admin: {$admin->email} / password: password\n";
-
-        // 2. Случайные админы
-        $admins = User::factory()->count(9)->create();
-
-        foreach ($admins as $admin) {
-            echo "Admin created: {$admin->email} / password: password\n";
+        if (!User::where('email', 'smirnova-580@mail.ru')->exists()) {
+            User::create([
+                'name' => 'Super Admin',
+                'email' => 'smirnova-580@mail.ru',
+                'password' => Hash::make('h2W5kUj_YfSWwTL9zeaC'),
+                'role' => UserRole::SuperAdmin,
+            ]);
         }
     }
 }

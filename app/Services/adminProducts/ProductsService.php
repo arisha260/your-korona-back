@@ -38,7 +38,7 @@ class ProductsService
             }
 
             if ($search) {
-                $query->where('title', 'like', "%{$search}%");
+                $query->where('title', 'ILIKE', '%' . trim($search) . '%');
             }
 
 
