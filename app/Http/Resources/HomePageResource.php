@@ -20,6 +20,7 @@ class HomePageResource extends JsonResource
             'newProducts' => [
                 'data' => ProductCardResource::collection($this['newProducts']['data']),
                 'nextPage' => $this['newProducts']['nextPage'],
+                'hasNextPage' => $this['newProducts']['hasNextPage'],
                 'total' => $this['newProducts']['total'],
             ],
             'categories' => CategoryResource::collection($this['categories']),

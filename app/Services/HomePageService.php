@@ -62,15 +62,23 @@ class HomePageService
             $limit = 5;
             $maxTotal = 20;
 
-            $products = Product::active()->orderByDesc('created_at')
+            // Получаем максимум $maxTotal продуктов
+            $allProducts = Product::active()
+                ->orderByDesc('created_at')
                 ->orderByDesc('id')
-                ->take($limit)
+                ->take($maxTotal)
                 ->get();
 
+            $chunks = $allProducts->chunk($limit);
+            $items = $chunks->get($page - 1) ?? collect();
+
+            $nextPage = $page < $chunks->count() ? $page + 1 : null;
+
             return [
-                'data' => $products,
-                'nextPage' => $products->count() >= $limit && $products->count() < $maxTotal ? $page + 1 : null,
-                'total' => $maxTotal
+                'data' => $items,
+                'nextPage' => $nextPage,
+                'hasNextPage' => $nextPage !== null,
+                'total' => $allProducts->count(), // если нужно показывать общее число
             ];
         } catch (\Exception $e) {
             Log::error('Failed to load new products', ['error' => $e]);

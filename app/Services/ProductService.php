@@ -95,13 +95,25 @@ class ProductService
         $query->orderBy('id');
     }
 
-    public function getNewProducts(int $page = 1, int $limit = 20): LengthAwarePaginator
+    public function getNewProducts(int $page = 1, int $limit = 5, int $maxTotal = 20): array
     {
         try {
-            return Product::orderByDesc('created_at')
+            // Получаем максимум 20 активных новых товаров
+            $products = Product::orderByDesc('created_at')
                 ->active()
                 ->orderByDesc('id')
-                ->paginate($limit, ['*'], 'page', $page);
+                ->take($maxTotal)
+                ->get();
+
+            $total = $products->count();
+
+            // Ручная пагинация
+            $chunks = $products->chunk($limit);
+            $items = $chunks->get($page - 1) ?? collect();
+
+            $nextPage = $page < $chunks->count() ? $page + 1 : null;
+
+            return [$items, $total, $nextPage];
         } catch (\Exception $e) {
             Log::error('ProductService getNewProducts error', [
                 'error' => $e->getMessage(),

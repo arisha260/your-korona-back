@@ -10,8 +10,8 @@ class GetUserController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $user = $request->user(); // Получаем авторизованного пользователя
+        $user = $request->user();
 
-        return new AdminResource($user); // Возвращаем данные через ресурс
+        return new AdminResource($user);
     }
 }

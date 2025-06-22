@@ -14,15 +14,15 @@ class productSeeder extends Seeder
      */
     public function run(): void
     {
-//        $products = Product::factory()->count(70)->create();
-//
-//        // прикрепляем материалы
-//        $products->each(function ($product) {
-//            // Берём случайные ID из MaterialsPolicy
-//            $materialIds = Material::inRandomOrder()->limit(rand(1, 5))->pluck('id');
-//
-//            // прикрепляем их к продукту
-//            $product->materials()->attach($materialIds);
-//        });
+        $products = Product::factory()->count(70)->create();
+
+        // прикрепляем материалы
+        $products->each(function ($product) {
+            // Берём случайные ID из MaterialsPolicy
+            $materialIds = Material::inRandomOrder()->limit(rand(1, 5))->pluck('id');
+
+            // прикрепляем их к продукту
+            $product->materials()->attach($materialIds);
+        });
     }
 }
