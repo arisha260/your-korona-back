@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Products\ProductCardResource;
 use App\Models\Product;
-use App\Http\Resources\ProductsResource;
 use Illuminate\Http\Request;
 
 class SearchAllController extends Controller
@@ -18,9 +18,10 @@ class SearchAllController extends Controller
         // По умолчанию 10, если запрашиваем все — большое число
         $perPage = $loadAll ? 1000 : 10;
 
-        $productsQuery = Product::query()
+        $productsQuery = Product::active()
+
             ->when($query, function ($q) use ($query) {
-                $q->where('title', 'like', "%{$query}%");
+                $q->where('title', 'ILIKE', '%' . trim($query) . '%');
             })
             ->latest();
 
@@ -32,11 +33,9 @@ class SearchAllController extends Controller
             ->get();
 
         return response()->json([
-            'data' => ProductsResource::collection($products),
+            'data' => ProductCardResource::collection($products),
             'total' => $total,
             'hasMore' => !$loadAll && ($page * $perPage) < $total,
         ]);
     }
-
-
 }

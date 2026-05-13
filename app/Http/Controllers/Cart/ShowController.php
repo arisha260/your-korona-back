@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
-use App\Models\Product;
-use App\Http\Resources\ProductsResource;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 

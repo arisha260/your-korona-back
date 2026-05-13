@@ -15,15 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
+            $table->string('storage_folder')->nullable()->after('slug')->unique();
             $table->text('description');
+            $table->string('preview');
             $table->json('photos')->nullable();
-            $table->foreignId('category_id')->constrained(
+            $table->boolean('is_archived')->default(false);
+            $table->foreignId('category_id')->nullable()->constrained(
                 table: 'categories', indexName: 'id'
             );
             $table->unsignedInteger('actual_price');
             $table->unsignedInteger('old_price')->nullable();
             $table->json('equipment')->nullable();
-            $table->json('materials')->nullable();
             $table->json('external_links')->nullable();
             $table->unsignedInteger('quantity')->default(0);
             $table->unsignedInteger('views')->default(0);

@@ -14,6 +14,7 @@ class ProductService
     {
         try {
             return Product::orderByDesc('views')
+                ->active()
                 ->take($limit)
                 ->get();
         } catch (\Exception $e) {
@@ -35,16 +36,20 @@ class ProductService
         try {
             $category = Category::where('slug', $slug)
                 ->select('id')
-                ->firstOrFail();
+                ->first();
 
-            $query = Product::where('category_id', $category->id)
+            if (!$category) {
+                abort(404, 'Категория не найдена');
+            }
+
+            $query = Product::active()->where('category_id', $category->id)
                 ->select([
                     'id',
                     'title',
                     'slug',
                     'actual_price',
                     'old_price',
-                    'photos',
+                    'preview',
                     'views',
                     'created_at',
                     'category_id'
@@ -53,7 +58,7 @@ class ProductService
                     $query->select('id', 'name', 'slug');
                 }])
                 ->when($search, function (Builder $query, string $search) {
-                    $query->where('title', 'like', "%{$search}%");
+                    $query->where('title', 'ILIKE', '%' . trim($search) . '%');
                 });
 
             $this->applySorting($query, $sort);
@@ -90,12 +95,25 @@ class ProductService
         $query->orderBy('id');
     }
 
-    public function getNewProducts(int $page = 1, int $limit = 20): LengthAwarePaginator
+    public function getNewProducts(int $page = 1, int $limit = 5, int $maxTotal = 20): array
     {
         try {
-            return Product::orderByDesc('created_at')
+            // Получаем максимум 20 активных новых товаров
+            $products = Product::orderByDesc('created_at')
+                ->active()
                 ->orderByDesc('id')
-                ->paginate($limit, ['*'], 'page', $page);
+                ->take($maxTotal)
+                ->get();
+
+            $total = $products->count();
+
+            // Ручная пагинация
+            $chunks = $products->chunk($limit);
+            $items = $chunks->get($page - 1) ?? collect();
+
+            $nextPage = $page < $chunks->count() ? $page + 1 : null;
+
+            return [$items, $total, $nextPage];
         } catch (\Exception $e) {
             Log::error('ProductService getNewProducts error', [
                 'error' => $e->getMessage(),

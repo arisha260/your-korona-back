@@ -13,6 +13,8 @@ class Order extends Model
         'client_city',
         'client_address',
         'client_index',
+        'client_social_url',
+        'client_social_type',
         'client_comment',
         'client_token',
         'delivery_method',
@@ -29,7 +31,7 @@ class Order extends Model
             'pickup' => 'Самовывоз',
             'cdek' => 'СДЭК',
             'yandex' => 'Яндекс',
-            'post' => 'Почта России',
+            'russian_post' => 'Почта России',
             'courier' => 'Курьер',
         ][$this->delivery_method] ?? $this->delivery_method;
     }
@@ -37,10 +39,22 @@ class Order extends Model
     public function getPaymentMethodLabelAttribute(): string
     {
         return [
-            'sbp' => 'СБП',
-            'card' => 'Картой',
+            'manual' => 'Оплата после согласования с администратором',
+            'online' => 'Оплата онлайн на сайте',
             'cash' => 'Оплата при получении',
         ][$this->payment_method] ?? $this->payment_method;
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return [
+            'awaiting_payment' => 'Ожидает оплаты',
+            'processing' => 'В обработке',
+            'ready_for_pickup' => 'Готов для самовывоза',
+            'shipped' => 'Отправлен',
+            'delivered' => 'Доставлен',
+            'cancelled' => 'Отменён',
+        ][$this->status] ?? $this->status;
     }
 
     public function products()
@@ -48,6 +62,16 @@ class Order extends Model
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
+
+    public function getUpdatedLabelAttribute()
+    {
+        return $this->updated_at->format('d.m.Y (H:i)');
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TGBot\TelegramBotController;
+use App\Http\Controllers\Trackers\ProductViewController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Http\Controllers\HomePageController::class);
 
+//Route::middleware(\App\Http\Middleware\HandleUserToken::class)->group(function () {
+//
+//});
+
 Route::get('/me', \App\Http\Controllers\UserController::class);
+
+Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], function() {
+    Route::get('/', \App\Http\Controllers\Cart\GetController::class);
+    Route::post('/add', \App\Http\Controllers\Cart\AddController::class);
+    Route::delete('/delete/{id}', \App\Http\Controllers\Cart\DeleteController::class);
+    Route::delete('/clear', \App\Http\Controllers\Cart\ClearAllController::class);
+    Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favorites'], function() {
+    Route::get('/me', \App\Http\Controllers\Favorites\GetFavoriteController::class);
+    Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
+});
 
 Route::group(['namespace' => 'App\Http\Controllers\News', 'prefix' => 'news'], function() {
     Route::get('/', [\App\Http\Controllers\News\KoronaNewsController::class, 'index']);
@@ -21,6 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Reviews', 'prefix' => 'review
     Route::get('/', \App\Http\Controllers\Reviews\IndexController::class);
     Route::get('/latest', \App\Http\Controllers\Reviews\LatestController::class);
     Route::get('/show/{slug}', \App\Http\Controllers\Reviews\ShowController::class);
+    Route::post('/send-on-confirmation', \App\Http\Controllers\Reviews\SendOnConfirmationController::class);
 });
 
 
@@ -31,20 +50,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Products', 'prefix' => 'produ
     Route::get('/show/{slug}', \App\Http\Controllers\Products\ShowController::class);
     Route::get('/news', \App\Http\Controllers\Products\LastNewController::class);
     Route::get('/{slug}', \App\Http\Controllers\Products\ByCategory::class);
+    Route::get('/product-for-reviews/{slug}', \App\Http\Controllers\Products\ForReviewController::class);
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Favorites', 'prefix' => 'favorites'], function() {
-    Route::get('/me', \App\Http\Controllers\Favorites\GetFavoriteController::class);
-    Route::post('/toggle', \App\Http\Controllers\Favorites\ToggleFavoriteController::class);
-});
-
-Route::group(['namespace' => 'App\Http\Controllers\Cart', 'prefix' => 'cart'], function() {
-    Route::get('/', \App\Http\Controllers\Cart\GetController::class);
-    Route::post('/add', \App\Http\Controllers\Cart\AddController::class);
-    Route::delete('/delete/{id}', \App\Http\Controllers\Cart\DeleteController::class);
-    Route::delete('/clear', \App\Http\Controllers\Cart\ClearAllController::class);
-    Route::patch('/update/{id}', \App\Http\Controllers\Cart\UpdateController::class);
-});
+Route::post('/products/{id}/track-view', [ProductViewController::class, 'track'])
+    ->middleware('throttle:60,1');
 
 Route::group(['namespace' => 'App\Http\Controllers\Order', 'prefix' => 'order'], function() {
     Route::post('/create', \App\Http\Controllers\Order\CreateController::class);
@@ -60,8 +70,12 @@ Route::get('/test-mail', function () {
     return 'Письмо отправлено!';
 });
 
-
 Route::get('/redis-test', function () {
     Cache::put('test_key', 'Привет, Redis!', 600);
     return Cache::get('test_key'); // должен вернуть "Привет, Redis!"
+});
+
+
+Route::get('/admin/test', function () {
+    return response()->json(auth()->user());
 });

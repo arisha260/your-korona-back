@@ -16,22 +16,23 @@ class Product extends Model
     protected $fillable = [
         'title',
         'slug',
+        'storage_folder',
         'description',
+        'preview',
         'photos',
         'category_id',
         'actual_price',
         'old_price',
         'equipment',
-        'materials',
         'external_links',
         'quantity',
-        'views'
+        'views',
+        'is_archived'
     ];
 
     protected $casts = [
         'photos' => 'array',
         'equipment' => 'array',
-        'materials' => 'array',
         'external_links' => 'array',
         'isNew' => 'boolean',
         'availability' => 'boolean',
@@ -72,5 +73,73 @@ class Product extends Model
         } else {
             $this->attributes['slug'] = $value;
         }
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
+    }
+
+    public function getMainPhotoAttribute(): ?string
+    {
+        return $this->photos[0] ?? null;
+    }
+
+    public function setExternalLinksAttribute($value)
+    {
+        $this->attributes['external_links'] = json_encode([
+            'vk' => $value['vk'] ?? 'https://vk.com/aryosha',
+            'telegram' => $value['telegram'] ?? 'https://t.me/aryossha',
+        ]);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($product) {
+            if (empty($product->slug)) {
+                $baseSlug = Str::slug($product->title);
+                $slug = $baseSlug;
+                $i = 1;
+
+                while (Product::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $i++;
+                }
+
+                $product->slug = $slug;
+            }
+        });
+    }
+
+    public function getCreatedLabelAttribute()
+    {
+        return $this->created_at->format('d.m.Y (H:i)');
+    }
+
+    public function getUpdatedLabelAttribute()
+    {
+        return $this->updated_at->format('d.m.Y (H:i)');
+    }
+
+    public function getCreatedRelativeAttribute()
+    {
+        return Carbon::parse($this->created_at)
+            ->locale('ru')
+            ->diffForHumans();
+    }
+
+
+    public function getOldPriceAttribute($value)
+    {
+        // Возвращаем старую цену, только если она больше актуальной
+        if ($value > $this->actual_price) {
+            return $value;
+        }
+
+        return null;
     }
 }

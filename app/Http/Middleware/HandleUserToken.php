@@ -17,7 +17,7 @@ class HandleUserToken
         if (!$token) {
             $token = (string)Str::uuid();
 
-//            $request->cookies->set('user_token', $token);
+            $request->cookies->set('user_token', $token);
 
             $response = $next($request);
             return $this->attachCookie($response, $token);
@@ -34,10 +34,10 @@ class HandleUserToken
             time() + 60 * 60 * 24 * 30,
             '/',
             null,
-            false,
+            app()->environment('production'),
             true,
             false,
-            'lax'
+            'Lax'
         );
 
         return $response->withCookie($cookie);

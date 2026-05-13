@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Http\Resources\ProductsResource;
+use App\Http\Resources\Products\ProductCardResource;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,12 +17,13 @@ class LastNewController extends Controller
             $page = max(1, (int) $request->input('page', 1));
             $limit = min(20, (int) $request->input('limit', 5));
 
-            $products = $service->getNewProducts($page, $limit);
+            [$items, $total, $nextPage] = $service->getNewProducts($page, $limit);
 
             return response()->json([
-                'data' => ProductsResource::collection($products),
-                'nextPage' => $products->hasMorePages() ? $page + 1 : null,
-                'total' => $products->total()
+                'data' => ProductCardResource::collection($items),
+                'nextPage' => $nextPage,
+                'hasNextPage' => $nextPage !== null,
+                'total' => $total,
             ]);
 
         } catch (\Exception $e) {

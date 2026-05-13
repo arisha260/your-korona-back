@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Products\ProductCardResource;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\KoronaReview;
@@ -31,11 +32,7 @@ class CartService
             'quantity' => $quantity
         ]);
 
-        return [
-            'item' => $item->load('product'),
-            'total_items' => $cart->items()->sum('quantity'),
-            'total_price' => $this->calculateTotalPrice($cart)
-        ];
+        return ['success' => true];
     }
 
     public function updateItem(string $userToken, int $productId, int $quantity): array
@@ -46,11 +43,7 @@ class CartService
             ->where('product_id', $productId)
             ->update(['quantity' => $quantity]);
 
-        return [
-            'success' => true,
-            'total_items' => $cart->items()->sum('quantity'),
-            'total_price' => $this->calculateTotalPrice($cart)
-        ];
+        return ['success' => true];
     }
 
     public function removeItem(string $userToken, int $productId): array
@@ -58,20 +51,14 @@ class CartService
         $cart = $this->getCart($userToken);
         $cart->items()->where('product_id', $productId)->delete();
 
-        return [
-            'success' => true,
-            'total_items' => $cart->items()->sum('quantity'),
-            'total_price' => $this->calculateTotalPrice($cart)
-        ];
+        return ['success' => true];
     }
 
     public function clearCart(string $userToken): array
     {
         $cart = $this->getCart($userToken)->delete();
 
-        return [
-            'success' => true,
-        ];
+        return ['success' => true];
     }
 
     public function getCartWithItems(string $userToken): array
@@ -84,12 +71,16 @@ class CartService
                 return $this->getCart($userToken);
             });
 
-        return [
-            'items' => $cart->items,
-            'total_items' => $cart->items->sum('quantity'),
-            'total_price' => $this->calculateTotalPrice($cart),
-            'subtotal' => $this->calculateSubtotal($cart)
-        ];
+        return array_merge([
+            'items' => $cart->items->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'product' => new ProductCardResource($item->product),
+                    'quantity' => $item->quantity,
+                    'price_total' => $item->product->actual_price * $item->quantity,
+                ];
+            }),
+        ], $this->getCartSummary($cart));
     }
 
     protected function calculateTotalPrice(Cart $cart): float
@@ -107,4 +98,31 @@ class CartService
                 : $item->product->actual_price * $item->quantity;
         });
     }
+
+    protected function calculateDiscount(Cart $cart): float
+    {
+        return $cart->items->sum(function ($item) {
+            $old = $item->product->old_price;
+            $actual = $item->product->actual_price;
+            $quantity = $item->quantity;
+
+            if ($old && $old > $actual) {
+                return ($old - $actual) * $quantity;
+            }
+
+            return 0;
+        });
+    }
+
+
+    protected function getCartSummary(Cart $cart): array
+    {
+        return [
+            'total_items' => $cart->items()->sum('quantity'),
+            'total_price' => $this->calculateTotalPrice($cart),
+            'subtotal' => $this->calculateSubtotal($cart),
+            'discount' => $this->calculateDiscount($cart),
+        ];
+    }
+
 }
